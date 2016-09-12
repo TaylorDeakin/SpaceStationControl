@@ -10,3 +10,6 @@ function Faction(name){
 method.getName = function () {
     return this.name;
 };
+
+
+module.exports = Faction;
