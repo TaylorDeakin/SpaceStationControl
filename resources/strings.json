@@ -45,7 +45,12 @@
     "Industry",
     "Syndicate",
     "Cartel",
-    "Partnership"
+    "Partnership",
+    "Group",
+    "Guard",
+    "Party",
+    "Coalition",
+    "Collective"
   ],
   "factionColours" : [
     "Crimson",
@@ -59,7 +64,11 @@
     "Red",
     "Silver",
     "Copper",
-    "Platinum"
+    "Platinum",
+    "White",
+    "Black",
+    "Alizarin",
+    "Amber"
   ],
   "systemNames": [
     "Sol",

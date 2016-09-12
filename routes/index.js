@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var siteTitle = "Spacestation Control";
-var SpaceshipControl = require("../scripts/Main");
+var GameControl = require("../scripts/Main");
 var Station = require("../scripts/Station");
 
 
@@ -12,15 +12,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/station/:id', function(req,res,next){
-    var test = new SpaceshipControl();
-
-    console.log(test.makeNewStation());
-
-
+    var control = new GameControl();
+    var station = control.makeNewStation();
     
     res.render('game', {
         title: siteTitle,
-        stationName: name
+        station: station
+
     })
 });
 
