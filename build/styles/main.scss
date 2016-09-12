@@ -5,5 +5,11 @@
 // bootstrap
 @import "vendor/bootstrap";
 @import 'https://fonts.googleapis.com/css?family=Lato|Michroma';
+// variables for everything
 @import "partials/variables";
+
+// core code
 @import "partials/typography";
+
+// game bits
+@import "partials/faction";

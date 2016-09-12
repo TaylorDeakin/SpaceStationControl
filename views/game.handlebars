@@ -6,20 +6,34 @@
                 <p class="lead">
                     {{name}}
                 </p>
+                <div class="influence-bar influence-bar-control" style="width: {{influence}}%"><span class="influence-bar-value">{{influence}}%</span></div>
             {{/with}}
         {{/with}}
         <p class="lead">{{status}}</p>
+
+        <div id="demo">
+            <p>\{{name}}</p>
+        </div>
     </div>
     <div class="col-md-4">
         <h2>System Factions</h2>
         {{#with station}}
             <ul class="list-unstyled">
-            {{#each factionList}}
-                <li>{{name}}</li>
-            {{/each}}
+                {{#each factionList}}
+                    <li>{{name}}<br>
+                        <div class="influence-bar" style="width: {{influence}}%"></div>
+                    </li>
+                {{/each}}
             </ul>
         {{/with}}
-
-
     </div>
 </div>
+
+<script>
+        var demo = new Vue({
+            el: '#demo',
+            {{#with station}}
+            data: { "name": "{{name}}" }
+            {{/with}}
+        })
+</script>

@@ -17,18 +17,32 @@ function Main() {
  * Makes a new station, with a controlling faction and a number of other factions
  */
 Main.prototype.makeNewStation = function () {
+    var influenceMax = 100;
+
     var system = this.systenNames[getRandomInt(0, this.systenNames.length)];
     var stationName = this.stationNames[getRandomInt(0, this.stationNames.length)]
         + " " + this.stationTypes[getRandomInt(0, this.stationTypes.length)];
-    var controllingFaction = this.makeNewFaction(system);
+    var controllingInfluence = getRandomInt(50,influenceMax);
+    var controllingFaction = this.makeNewFaction(system, controllingInfluence);
+    influenceMax -= controllingInfluence;
+
     var numFactions = getRandomInt(1, 5);
     var factions = {};
     for (var i = 0; i < numFactions; i++) {
+        var influence;
+        if(i == (numFactions -1)){
+             influence = influenceMax;
+        } else {
+            influence = getRandomInt(1,influenceMax);
+            influenceMax -= influence;
+        }
+
+        console.log(influence);
         if (i >= 2) {
             system = this.systenNames[getRandomInt(0, this.systenNames.length)];
         }
 
-        factions[i] = (this.makeNewFaction(system));
+        factions[i] = (this.makeNewFaction(system, influence));
     }
 
     return new Station(stationName, controllingFaction, factions, system);
@@ -36,14 +50,20 @@ Main.prototype.makeNewStation = function () {
 /**
  * Make a new faction
  * @param system - the system the parameter is in
+ * @param influence
  * @returns {Faction} - a faction object
  */
-Main.prototype.makeNewFaction = function (system) {
-    var name = system
-        + " " + this.factionColours[getRandomInt(0, this.factionColours.length)]
-        + " " + this.factionSuffixes[getRandomInt(0, this.factionSuffixes.length)];
+Main.prototype.makeNewFaction = function (system, influence) {
 
-    return new Faction(name);
+    var colour = " ";
+    if(Math.random() > 0.5){
+        colour =  " " + this.factionColours[getRandomInt(0, this.factionColours.length)] + " ";
+    }
+
+    var name = system
+        + colour + this.factionSuffixes[getRandomInt(0, this.factionSuffixes.length)];
+
+    return new Faction(name, influence);
 };
 
 // via http://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range
