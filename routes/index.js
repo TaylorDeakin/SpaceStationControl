@@ -10,8 +10,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/station/:name', function(req,res,next){
     var name = req.params.name;
-
-
+    
     res.render('game', {
         title: siteTitle,
         stationName: name
