@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         {{#with station}}
             <h2>{{name}} | {{system}}</h2>
             {{#with controllingFaction}}
@@ -11,26 +11,15 @@
         <p class="lead">{{status}}</p>
     </div>
     <div class="col-md-4">
-        <h2></h2>
-        <p class="lead"></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Recent News</h2>
-        <p class="lead">{{stationName}} Chronicles</p>
-        <ul class="list-unstyled">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-        <hr>
         <h2>System Factions</h2>
         {{#with station}}
+            <ul class="list-unstyled">
             {{#each factionList}}
-                <h3>{{name}}</h3>
+                <li>{{name}}</li>
             {{/each}}
+            </ul>
         {{/with}}
+
 
     </div>
 </div>
