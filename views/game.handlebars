@@ -1,14 +1,14 @@
-<div class="row" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<div class="row">
     <div class="col-md-8">
         {{#with station}}
             <h2>{{name}} | {{system}}</h2>
             <div id="controlling-faction">
                 {{#with controllingFaction}}
                     <p class="lead">
-                        \{{name}}
+                        \{{ inPower.name }}
                     </p>
-                    <div class="influence-bar influence-bar-control" v-bind:style="{ width: influence +'%' }"><span
-                            class="influence-bar-value">\{{influence}}%</span></div>
+                    <div class="influence-bar influence-bar-control" v-bind:style="{ width: inPower.influence +'%' }"><span
+                            class="influence-bar-value">\{{ inPower.influence }}%</span></div>
                 {{/with}}
             </div>
         {{/with}}
@@ -65,11 +65,11 @@
         el: "#controlling-faction",
         {{#with station}}
             {{#with controllingFaction}}
-                data: {{{json}}}
+                data: { "inPower" : {{{json}}} }
             {{/with}}
 
         {{/with}}
     });
 </script>
 <script src="/js/events.js"></script>
-<script src="/js/game-loop.js"></script>
+<!--<script src="/js/game-loop.js"></script>-->

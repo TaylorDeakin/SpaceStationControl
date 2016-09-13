@@ -13,30 +13,38 @@ function changePowerDynamic(scale) {
     }
 
     // get current influence
-    var controllingFactionCurrentInfluence = controllingFaction.influence;
+    var controllingFactionCurrentInfluence = controllingFaction["inPower"].influence;
     // figure out new influence
     var controllingFactionChangedInfluence = controllingFactionCurrentInfluence - changeAmount;
 
     // get number of factions
     var numFactions = factions["factions"].length;
     if (numFactions == 0) {
-        controllingFaction.influence = 100;
+        controllingFaction["inPower"].influence = 100;
         return
     }
 
 
     // if change would put the station over 100%
-    if (controllingFaction.influence - changeAmount > 100) {
+    if (controllingFaction["inPower"].influence - changeAmount > 100) {
         // figure something else out
 
-    } else if (controllingFaction.influence - changeAmount < 50) {
-        // 'controlling' is defined as having 50% or more of 'influence'
-        // make a new faction the controlling one!
+    } else if (controllingFaction["inPower"].influence < factions["factions"][0].influence) {
+        // 'controlling' is defined as having a majority of power
+
+
+        var currentFaction = controllingFaction["inPower"];
+        // it's sorted already
+        var newFaction = factions["factions"][0];
+        factions["factions"][0] = currentFaction;
+
+        controllingFaction.$set("inPower", newFaction);
+
 
     } else {
         // everything is normal
         // change controlling faction
-        controllingFaction.influence = controllingFactionChangedInfluence;
+        controllingFaction["inPower"].influence = controllingFactionChangedInfluence;
         // dole out the change equally to everyone else
         var influenceLeft = 100 - controllingFactionChangedInfluence;
         for (var i = 0; i < numFactions; i++) {
@@ -56,6 +64,40 @@ function changePowerDynamic(scale) {
 
     }
 
+    factions["factions"] = factions["factions"].sort(function(a,b){
+        return b.influence - a.influence;
+    });
+
 
 }
 
+// game events
+var events = [
+    function () {
+        changePowerDynamic(5);
+    },
+    function () {
+        changePowerDynamic(10);
+    },
+    function () {
+        changePowerDynamic(8);
+    },
+    function () {
+        changePowerDynamic(15);
+    }
+];
+
+function randomEvent() {
+    randomFrom(events).call();
+}
+function randomFrom(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+(function loop() {
+    var rand = Math.round(Math.random() * (3000 - 500)) + 500;
+    setTimeout(function () {
+        randomEvent();
+        loop();
+    }, rand);
+}());

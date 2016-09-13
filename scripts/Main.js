@@ -46,6 +46,10 @@ Main.prototype.makeNewStation = function () {
         factions['factions'][i] = (this.makeNewFaction(system, influence));
     }
 
+    factions['factions'].sort(function(a,b){
+       return b.influence - a.influence;
+    });
+
     return new Station(stationName, controllingFaction, factions, system);
 };
 /**
