@@ -3,9 +3,10 @@ var Faction = require('../scripts/Faction');
 var Station = require('../scripts/Station');
 var systenNames, factionColours, factionSuffixes, stationNames, stationTypes;
 
+
 function Main() {
     var jsonData = require('../resources/strings.json');
-
+    
     this.stationNames = jsonData["stationNames"];
     this.stationTypes = jsonData["stationTypes"];
     this.systenNames = jsonData["systemNames"];
@@ -27,7 +28,7 @@ Main.prototype.makeNewStation = function () {
     influenceMax -= controllingInfluence;
 
     var numFactions = getRandomInt(1, 5);
-    var factions = {};
+    var factions = [];
     for (var i = 0; i < numFactions; i++) {
         var influence;
         if(i == (numFactions -1)){

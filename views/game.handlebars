@@ -2,12 +2,17 @@
     <div class="col-md-8">
         {{#with station}}
             <h2>{{name}} | {{system}}</h2>
-            {{#with controllingFaction}}
-                <p class="lead">
-                    {{name}}
-                </p>
-                <div class="influence-bar influence-bar-control" style="width: {{influence}}%"><span class="influence-bar-value">{{influence}}%</span></div>
-            {{/with}}
+            <div id="controlling-faction">
+                {{#with controllingFaction}}
+                    <p class="lead">
+                        \{{name}}
+                    </p>
+                    <label>Change Name</label>
+                    <input name="stationName" v-model="name" id="stationName" type="text">
+                    <div class="influence-bar influence-bar-control" v-bind:style="{ width: influence +'%' }"><span
+                            class="influence-bar-value">\{{influence}}%</span></div>
+                {{/with}}
+            </div>
         {{/with}}
         <p class="lead">{{status}}</p>
 
@@ -29,11 +34,72 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12">
+        <h3></h3>
+        <button onclick="incrementFaction()">Increment Faction</button>
+        <button onclick="decrementFaction()">Decrement Faction</button>
+    </div>
+    <div class="col-md-12">
+        <button onclick="changePowerDynamic(15)">Change Power Dynamic(large)</button>
+        <button onclick="changePowerDynamic(5)">Change Power Dynamic(small)</button>
+    </div>
+</div>
+
 <script>
-        var demo = new Vue({
-            el: '#demo',
-            {{#with station}}
-            data: { "name": "{{name}}" }
+    var station = new Vue({
+        el: '#demo',
+        {{#with station}}
+            data: {{{jsonString}}}
+        {{/with}}
+    });
+
+    var controllingFaction = new Vue({
+        el: "#controlling-faction",
+        {{#with station}}
+            {{#with controllingFaction}}
+                data: {{{json}}}
             {{/with}}
-        })
+
+        {{/with}}
+    });
+
+    function incrementFaction() {
+        controllingFaction.influence++;
+    }
+    function decrementFaction() {
+        controllingFaction.influence--;
+    }
+    function changePowerDynamic(scale) {
+        var change = Math.floor(Math.random() * scale) + 1;
+        var numFactions = station.factionList.length;
+        // change can be good too!
+        if (Math.random() > 0.5) {
+            change *= -1;
+        }
+        if (controllingFaction.influence - change > 100) {
+            controllingFaction.influence = 100;
+            station.factionList.splice(numFactions-1,1);
+            console.log(station.factionList);
+        } else {
+            controllingFaction.influence -= change;
+
+            for (var i = 0; i < numFactions; i++) {
+                if(change > 0){
+                    station.factionList[i].influence += change / numFactions;
+                    change -= numFactions;
+                } else {
+                    station.factionList[i].influence -= change / numFactions;
+                    change += numFactions;
+                }
+
+
+            }
+
+
+        }
+
+
+    }
+
 </script>
