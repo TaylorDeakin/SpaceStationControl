@@ -2,24 +2,86 @@
     <div class="col-md-8">
         {{#with station}}
             <h2>{{name}} | {{system}}</h2>
-            {{#with controllingFaction}}
-                <p class="lead">
-                    {{name}}
-                </p>
-            {{/with}}
+            <div id="controlling-faction">
+                {{#with controllingFaction}}
+                    <p class="lead">
+                        \{{ inPower.name }}
+                    </p>
+                    <div class="influence-bar influence-bar-control"
+                         v-bind:style="{ width: inPower.influence +'%' }"><span
+                            class="influence-bar-value">\{{ inPower.influence }}%</span></div>
+                {{/with}}
+            </div>
         {{/with}}
         <p class="lead">{{status}}</p>
+
+        <div id="demo">
+            <p>\{{name}}</p>
+        </div>
     </div>
     <div class="col-md-4">
         <h2>System Factions</h2>
-        {{#with station}}
-            <ul class="list-unstyled">
-            {{#each factionList}}
-                <li>{{name}}</li>
-            {{/each}}
-            </ul>
-        {{/with}}
+        <div id="factions">
 
+            <ul class="list-unstyled">
+                <li v-for="faction in factions">\{{ faction.name }} | <span>\{{ faction.influence }}%</span> <br>
+                    <div class="influence-bar" v-bind:style="{ width: faction.influence +'%' }">
+
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<script>
+    var station = new Vue({
+        el: '#demo',
+        {{#with station}}
+            data: {{{jsonString}}}
+        {{/with}}
+    });
+
+    var factions = new Vue({
+        el: '#factions',
+        {{#with station}}
+            data: {{{factionString}}}
+        {{/with}}
+    });
+
+    var controllingFaction = new Vue({
+        el: "#controlling-faction",
+        {{#with station}}
+            {{#with controllingFaction}}
+                data: {"inPower": {{{json}}} }
+            {{/with}}
+
+        {{/with}}
+    });
+</script>
+<script src="/js/events.js"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3></h3>
+        <button onclick="incrementFaction()">Increment Faction</button>
+        <button onclick="decrementFaction()">Decrement Faction</button>
+        <button onclick="(function loop() {
+                        var rand = Math.round(Math.random() * (300 - 50)) + 250;
+                        setTimeout(function () {
+                            randomEvent();
+                            loop();
+                        }, rand);
+                        }());">Start Simulation</button>
+    </div>
+    <div class="col-md-12">
+        <button onclick="changePowerDynamic(15)">Change Power Dynamic(large)</button>
+        <button onclick="changePowerDynamic(5)">Change Power Dynamic(small)</button>
 
     </div>
 </div>
+
+
+
+
+<!--<script src="/js/game-loop.js"></script>-->
