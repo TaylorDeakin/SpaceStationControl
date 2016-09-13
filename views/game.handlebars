@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div class="col-md-8">
         {{#with station}}
             <h2>{{name}} | {{system}}</h2>
@@ -7,8 +7,6 @@
                     <p class="lead">
                         \{{name}}
                     </p>
-                    <label>Change Name</label>
-                    <input name="stationName" v-model="name" id="stationName" type="text">
                     <div class="influence-bar influence-bar-control" v-bind:style="{ width: influence +'%' }"><span
                             class="influence-bar-value">\{{influence}}%</span></div>
                 {{/with}}
@@ -22,15 +20,17 @@
     </div>
     <div class="col-md-4">
         <h2>System Factions</h2>
-        {{#with station}}
+        <div id="factions">
+
             <ul class="list-unstyled">
-                {{#each factionList}}
-                    <li>{{name}}<br>
-                        <div class="influence-bar" style="width: {{influence}}%"></div>
-                    </li>
-                {{/each}}
+                <li v-for="faction in factions">\{{ faction.name }} | <span>\{{ faction.influence }}%</span> <br>
+                    <div class="influence-bar" v-bind:style="{ width: faction.influence +'%' }">
+
+                    </div>
+                </li>
             </ul>
-        {{/with}}
+
+        </div>
     </div>
 </div>
 
@@ -54,6 +54,13 @@
         {{/with}}
     });
 
+    var factions = new Vue({
+        el: '#factions',
+        {{#with station}}
+            data: {{{factionString}}}
+        {{/with}}
+    });
+
     var controllingFaction = new Vue({
         el: "#controlling-faction",
         {{#with station}}
@@ -63,43 +70,6 @@
 
         {{/with}}
     });
-
-    function incrementFaction() {
-        controllingFaction.influence++;
-    }
-    function decrementFaction() {
-        controllingFaction.influence--;
-    }
-    function changePowerDynamic(scale) {
-        var change = Math.floor(Math.random() * scale) + 1;
-        var numFactions = station.factionList.length;
-        // change can be good too!
-        if (Math.random() > 0.5) {
-            change *= -1;
-        }
-        if (controllingFaction.influence - change > 100) {
-            controllingFaction.influence = 100;
-            station.factionList.splice(numFactions-1,1);
-            console.log(station.factionList);
-        } else {
-            controllingFaction.influence -= change;
-
-            for (var i = 0; i < numFactions; i++) {
-                if(change > 0){
-                    station.factionList[i].influence += change / numFactions;
-                    change -= numFactions;
-                } else {
-                    station.factionList[i].influence -= change / numFactions;
-                    change += numFactions;
-                }
-
-
-            }
-
-
-        }
-
-
-    }
-
 </script>
+<script src="/js/events.js"></script>
+<script src="/js/game-loop.js"></script>

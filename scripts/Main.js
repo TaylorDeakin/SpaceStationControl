@@ -28,7 +28,7 @@ Main.prototype.makeNewStation = function () {
     influenceMax -= controllingInfluence;
 
     var numFactions = getRandomInt(1, 5);
-    var factions = [];
+    var factions = {"factions": []};
     for (var i = 0; i < numFactions; i++) {
         var influence;
         if(i == (numFactions -1)){
@@ -43,7 +43,7 @@ Main.prototype.makeNewStation = function () {
             system = this.systenNames[getRandomInt(0, this.systenNames.length)];
         }
 
-        factions[i] = (this.makeNewFaction(system, influence));
+        factions['factions'][i] = (this.makeNewFaction(system, influence));
     }
 
     return new Station(stationName, controllingFaction, factions, system);
