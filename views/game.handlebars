@@ -7,7 +7,8 @@
                     <p class="lead">
                         \{{ inPower.name }}
                     </p>
-                    <div class="influence-bar influence-bar-control" v-bind:style="{ width: inPower.influence +'%' }"><span
+                    <div class="influence-bar influence-bar-control"
+                         v-bind:style="{ width: inPower.influence +'%' }"><span
                             class="influence-bar-value">\{{ inPower.influence }}%</span></div>
                 {{/with}}
             </div>
@@ -33,19 +34,6 @@
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-md-12">
-        <h3></h3>
-        <button onclick="incrementFaction()">Increment Faction</button>
-        <button onclick="decrementFaction()">Decrement Faction</button>
-    </div>
-    <div class="col-md-12">
-        <button onclick="changePowerDynamic(15)">Change Power Dynamic(large)</button>
-        <button onclick="changePowerDynamic(5)">Change Power Dynamic(small)</button>
-    </div>
-</div>
-
 <script>
     var station = new Vue({
         el: '#demo',
@@ -65,11 +53,35 @@
         el: "#controlling-faction",
         {{#with station}}
             {{#with controllingFaction}}
-                data: { "inPower" : {{{json}}} }
+                data: {"inPower": {{{json}}} }
             {{/with}}
 
         {{/with}}
     });
 </script>
 <script src="/js/events.js"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3></h3>
+        <button onclick="incrementFaction()">Increment Faction</button>
+        <button onclick="decrementFaction()">Decrement Faction</button>
+        <button onclick="(function loop() {
+                        var rand = Math.round(Math.random() * (300 - 50)) + 250;
+                        setTimeout(function () {
+                            randomEvent();
+                            loop();
+                        }, rand);
+                        }());">Start Simulation</button>
+    </div>
+    <div class="col-md-12">
+        <button onclick="changePowerDynamic(15)">Change Power Dynamic(large)</button>
+        <button onclick="changePowerDynamic(5)">Change Power Dynamic(small)</button>
+
+    </div>
+</div>
+
+
+
+
 <!--<script src="/js/game-loop.js"></script>-->

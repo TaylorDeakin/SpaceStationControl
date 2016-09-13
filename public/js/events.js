@@ -11,12 +11,10 @@ function changePowerDynamic(scale) {
     if (Math.random() > 0.5) {
         changeAmount *= -1;
     }
-
     // get current influence
     var controllingFactionCurrentInfluence = controllingFaction["inPower"].influence;
     // figure out new influence
     var controllingFactionChangedInfluence = controllingFactionCurrentInfluence - changeAmount;
-
     // get number of factions
     var numFactions = factions["factions"].length;
     if (numFactions == 0) {
@@ -94,10 +92,3 @@ function randomFrom(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
-(function loop() {
-    var rand = Math.round(Math.random() * (3000 - 500)) + 500;
-    setTimeout(function () {
-        randomEvent();
-        loop();
-    }, rand);
-}());
