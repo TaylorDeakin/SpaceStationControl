@@ -1,24 +1,43 @@
 <div class="row">
-    <div class="col-md-8">
-        {{#with station}}
-            <h2>{{name}} | {{system}}</h2>
-            <div id="controlling-faction">
-                {{#with controllingFaction}}
-                    <p class="lead">
-                        \{{ inPower.name }}
-                    </p>
-                    <div class="influence-bar influence-bar-control"
-                         v-bind:style="{ width: inPower.influence +'%' }"><span
-                            class="influence-bar-value">\{{ inPower.influence }}%</span></div>
+    <div class="col-sm-9 col-xs-12">
+        <div class="row">
+            <div class="col-sm-12">
+                {{#with station}}
+                    {{#with controllingFaction}}
+                        <h2>{{name}} | {{../system}}</h2>
+                    <div id="controlling-faction">
+                        <h3>Status: </h3>
+                        <div class="influence-bar influence-bar-control"
+                             v-bind:style="{ width: inPower.influence +'%' }"><span
+                                class="influence-bar-value">Influence: \{{ inPower.influence }}%</span></div>
+                    {{/with}}
+                </div>
                 {{/with}}
-            </div>
-        {{/with}}
-        <p class="lead">{{status}}</p>
-    </div>
-    <div class="col-md-4">
-        <h2>System Factions</h2>
-        <div id="factions">
 
+                <p class="lead">{{status}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>News</h3>
+                <div id="news">
+                    <ul class="list-unstyled">
+                        <li><h4>{{#with station}}{{#with controllingFaction}}{{name}} Appoint a new Overseer
+                            for{{/with}} {{name}}{{/with}}</h4>
+                            <p>Welcome to your new job, Overseer! Your task is to maintain control of this
+                                space-station,
+                                and grow our economic interests. </p>
+                        </li>
+                        <li v-for="news in items"><h4>\{{ news.title }}</h4>
+                            <p>\{{ news.body }}</p></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 col-xs-12">
+        <h3>System Factions</h3>
+        <div id="factions">
             <ul class="list-unstyled">
                 <li v-for="faction in factions">\{{ faction.name }} | <span>\{{ faction.influence }}%</span> <br>
                     <div class="influence-bar" v-bind:style="{ width: faction.influence +'%' }">
@@ -28,13 +47,8 @@
             </ul>
 
         </div>
-        <h2>News</h2>
-        <div id="news">
-            <ul class="list-unstyled">
-                <li v-for="news in items"><h3>\{{ news.title }}</h3><p>\{{ news.body }}</p></li>
-            </ul>
-        </div>
     </div>
+</div>
 </div>
 <script>
     var station = new Vue({
@@ -69,25 +83,5 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/utility.js"></script>
 <script src="/js/events.js"></script>
-
-<div class="row">
-    <div class="col-md-12">
-        <h3></h3>
-        <button onclick="incrementFaction()">Increment Faction</button>
-        <button onclick="decrementFaction()">Decrement Faction</button>
-        <button onclick="(function loop() {
-                        var rand = Math.round(Math.random() * (300 - 50)) + 250;
-                        setTimeout(function () {
-                            randomEvent();
-                            loop();
-                        }, rand);
-                        }());">Start Simulation</button>
-    </div>
-    <div class="col-md-12">
-        <button onclick="changePowerDynamic(15)">Change Power Dynamic(large)</button>
-        <button onclick="changePowerDynamic(5)">Change Power Dynamic(small)</button>
-
-    </div>
-</div>
 
 <script src="/js/game-loop.js"></script>
