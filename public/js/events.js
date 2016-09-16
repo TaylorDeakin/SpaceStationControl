@@ -20,7 +20,6 @@ function changePowerDynamic(scale) {
         return
     }
 
-
     // if change would put the station over 100%
     if (controllingFaction["inPower"].influence - changeAmount > 100) {
 
@@ -68,18 +67,45 @@ function changePowerDynamic(scale) {
 
 function positiveEvent() {
     var xhttp = new XMLHttpRequest();
-
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var response = this.responseText;
 
             response = JSON.parse(response);
-            var bodyText = response["text"].format(station.name, controllingFaction.inPower.name);
 
+            var placeholders = response["placeholders"];
+            
+            // for each of the placeholders, we want to replace it
+            // with the relevant data
+            for(var i = 0; i < placeholders.length; i++){
+                switch(placeholders[i]){
+                    case "station":
+                        placeholders[i] = station.name;
+                        break;
+                    case "faction":
+                        placeholders[i] = controllingFaction.inPower.name;
+                        break;
+                    case "commodity":
+                        placeholders[i] = getRandomCommodity();
+                        break;
+                    case "person":
+                        placeholders[i] = getRandomPerson();
+                        break;
+                    case "system":
+                        break;
+                }
+            }
+
+            var bodyText = response["text"].format(placeholders);
             changePowerDynamic(response["influenceChange"]);
             alert(bodyText);
         }
     };
     xhttp.open("GET", "../event/positive", true);
     xhttp.send();
+}
+
+function getNews(){
+    var newsCount = 0
+    
 }

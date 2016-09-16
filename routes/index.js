@@ -22,20 +22,6 @@ router.get('/station/:id', function(req,res,next){
     })
 });
 
-router.get('/event/positive', function(req,res,next){
-    var item = (messages["positiveEvent"].length);
-    res.send(messages["positiveEvent"][control.getRandomInt(0,item)]);
-});
-router.get('/event/negative', function(req,res,next){
-    var item = messages["negativeEvent"].length;
-    res.send(messages["negativeEvent"][item]);
-});
-router.get('/event/news', function(req,res,next){
-   var len = messages["news"].length;
-    res.send(messages["negativeEvent"][len]);
-
-});
-
 
 
 
