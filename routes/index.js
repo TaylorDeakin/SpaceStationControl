@@ -3,8 +3,8 @@ var router = express.Router();
 var siteTitle = "Spacestation Control";
 var GameControl = require("../scripts/Main");
 var Station = require("../scripts/Station");
-
-
+var messages = require("../resources/messages.json");
+var control = new GameControl();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -12,15 +12,25 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/station/:id', function(req,res,next){
-    var control = new GameControl();
+
     var station = control.makeNewStation();
-    
+
     res.render('game', {
         title: siteTitle,
         station: station
 
     })
 });
+
+router.get('/event/positive', function(req,res,next){
+    var len = (messages["positiveEvent"].length);
+    res.send(messages["positiveEvent"][control.getRandomInt(0,len)]);
+});
+router.get('/event/negative', function(req,res,next){
+    var len = messages["negativeEvent"].length;
+    res.send(messages["negativeEvent"][len]);
+});
+
 
 
 

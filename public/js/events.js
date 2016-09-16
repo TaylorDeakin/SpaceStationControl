@@ -19,13 +19,13 @@ function changePowerDynamic(scale) {
     var numFactions = factions["factions"].length;
     if (numFactions == 0) {
         controllingFaction["inPower"].influence = 100;
+        station.name = "winner!";
         return
     }
 
 
     // if change would put the station over 100%
     if (controllingFaction["inPower"].influence - changeAmount > 100) {
-        // figure something else out
 
     } else if (controllingFaction["inPower"].influence < factions["factions"][0].influence) {
         // 'controlling' is defined as having a majority of power
@@ -46,7 +46,7 @@ function changePowerDynamic(scale) {
         // dole out the change equally to everyone else
         var influenceLeft = 100 - controllingFactionChangedInfluence;
         for (var i = 0; i < numFactions; i++) {
-            var change = influenceLeft / (numFactions - i) - Math.floor(Math.random() * scale / 2);
+            var change = Math.floor(influenceLeft / (numFactions - i) - Math.floor(Math.random() * scale / 2));
             influenceLeft -= change;
             factions["factions"][i].influence = change;
 
@@ -69,26 +69,19 @@ function changePowerDynamic(scale) {
 
 }
 
-// game events
-var events = [
-    function () {
-        changePowerDynamic(5);
-    },
-    function () {
-        changePowerDynamic(10);
-    },
-    function () {
-        changePowerDynamic(8);
-    },
-    function () {
-        changePowerDynamic(15);
-    }
-];
+function positiveEvent(){
+    var xhttp =new XMLHttpRequest();
 
-function randomEvent() {
-    randomFrom(events).call();
-}
-function randomFrom(array) {
-    return array[Math.floor(Math.random() * array.length)];
-}
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200){
+            var response = this.responseText;
 
+            response = JSON.parse(response);
+            var bodyText = response["text"].format(station.name,controllingFaction.inPower.name);
+
+            alert(bodyText);
+        }
+    };
+    xhttp.open("GET", "../event/positive", true);
+    xhttp.send();
+}

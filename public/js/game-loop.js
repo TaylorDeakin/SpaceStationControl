@@ -21,10 +21,14 @@ function randomFrom(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
-(function loop() {
-    var rand = Math.round(Math.random() * (3000 - 500)) + 500;
-    setTimeout(function () {
-        randomEvent();
-        loop();
-    }, rand);
-}());
+/*(function loop() {
+    var rand = Math.round(Math.random() * (300 - 50)) + 50;
+    if (controllingFaction.influence > 100) {
+        station.name = "winner!";
+    } else {
+        setTimeout(function () {
+            randomEvent();
+            loop();
+        }, rand);
+    }
+}());*/

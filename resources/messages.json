@@ -1,0 +1,35 @@
+{
+  "positiveEvent": [
+    {
+      "title": "10th Anniversary Celebrations",
+      "text": "Today the citizens of {0} celebrated 10 years of prosperity under the watch of the {1}.",
+      "influenceChange": 10,
+      "placeholders" : ["station", "faction"]
+    },
+    {
+      "title": "Overfulfillment of the Ninth Three-Year Plan",
+      "text": "Surplus production of {0} has resulted in the overfulfilment of {1}'s Ninth Three-Year Plan, resulting increased prosperity and happiness for all of {2}'s citizens",
+      "influenceChange": 3,
+      "placeholders": [
+        "commodity",
+        "faction",
+        "station"
+      ]
+    },
+    {
+      "title": "Notorious Pirate Brought to Justice",
+      "text": "The notorious Space Pirate {0} was today brought to justice by {1} authorities. ",
+      "influenceChange": 3,
+      "placeholders": ["person", "faction"]
+    }
+  ],
+  "negativeEvent": [
+    {
+      "title": "Biowaste Spill Creates Havoc",
+      "text": "",
+      "influenceChange": 3
+    }
+  ],
+  "newsBulletin": [
+  ]
+}
