@@ -7,7 +7,8 @@
       "placeholders": [
         "station",
         "faction"
-      ]
+      ],
+      "id": 0
     },
     {
       "title": "Overfulfillment of the Ninth Three-Year Plan",
@@ -17,7 +18,8 @@
         "commodity",
         "faction",
         "station"
-      ]
+      ],
+      "id":1
     },
     {
       "title": "Notorious Pirate Brought to Justice",
@@ -26,7 +28,25 @@
       "placeholders": [
         "person",
         "faction"
-      ]
+      ],
+      "id":2
+    },
+    {
+      "title": "{0} Expects to post economic surplus this year",
+      "text": "A spokesperson for the {0} announced today that they expect an economic surplus for {1} this year.",
+      "influenceChange": 3,
+      "placeholders": [
+        "faction",
+        "station"
+      ],
+      "id":3
+    },
+    {
+      "title": "",
+      "text": "",
+      "influenceChange": 1,
+      "placeholders": [],
+      "id":4
     }
   ],
   "negativeEvent": [
@@ -34,7 +54,8 @@
       "title": "Biowaste Spill Creates Havoc",
       "text": "",
       "influenceChange": -3,
-      "placeholders": []
+      "placeholders": [],
+      "id":5
     },
     {
       "title": "Exploration Party Lost",
@@ -42,7 +63,8 @@
       "influenceChange": -4,
       "placeholders": [
         "faction"
-      ]
+      ],
+      "id":6
     },
     {
       "title": "Discontentment Grows as Station-wide Shortage Continues",
@@ -51,11 +73,36 @@
       "placeholders": [
         "station",
         "commodity"
-      ]
+      ],
+      "id":7
+    },
+    {
+      "title": "Two Hundred Dead After Catastrophic Oxygen Leak; Citizens Want an Investigation",
+      "text": "Two Hundred Workers were killed Tuesday, when a catastrophic oxygen leak saw parts of the Industrial District without air for more than 10 minutes. Residents of {0} have called for an investigation by the {1}, who control the station.",
+      "influenceChange": -8,
+      "placeholders": [
+        "station",
+        "faction"
+      ],
+      "id":8
+
+    },
+    {
+      "title": "Increasing Numbers of Space Pirates in {0}",
+      "text": "According to a report released yesterday, the number of space pirates in {0} appears to be increasing. The report cited multiple traders who claimed to have been attacked while transporting goods. While the exact number of pirates is unknown, all pilots are advised to fly safely, and to contact {1} officials immediately if they suspect anyone is a pirate.",
+      "influenceChange": -2,
+      "placeholders": ["system", "faction"],
+      "id":9
+    },
+    {
+      "title": "Space Pirate Leader Sighted",
+      "text": "Notorious Space Pirate {0} has been sighted in {1}. {0} is notorious for their excessive cruelty, and their ship {2}, is said to be painted red with the blood of all who have been murdered.",
+      "influenceChange": -1,
+      "placeholders": ["person","system","pirateShip"],
+      "id":10
     }
   ],
   "newsBulletin": [
-    {
-    }
+    {}
   ]
 }
