@@ -1,16 +1,13 @@
 // game events
 var events = [
     function () {
-        changePowerDynamic(5);
+        positiveEvent();
     },
     function () {
-        changePowerDynamic(10);
+        negativeEvent();
     },
     function () {
-        changePowerDynamic(8);
-    },
-    function () {
-        changePowerDynamic(15);
+        getNews();
     }
 ];
 

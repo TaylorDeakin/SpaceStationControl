@@ -11,7 +11,7 @@ function changePowerDynamic(scale) {
     // get current influence
     var controllingFactionCurrentInfluence = controllingFaction["inPower"].influence;
     // figure out new influence
-    var controllingFactionChangedInfluence = controllingFactionCurrentInfluence - changeAmount;
+    var controllingFactionChangedInfluence = controllingFactionCurrentInfluence + changeAmount;
     // get number of factions
     var numFactions = factions["factions"].length;
     if (numFactions == 0) {
@@ -21,7 +21,7 @@ function changePowerDynamic(scale) {
     }
 
     // if change would put the station over 100%
-    if (controllingFaction["inPower"].influence - changeAmount > 100) {
+    if (controllingFaction["inPower"].influence + changeAmount > 100) {
 
     } else if (controllingFaction["inPower"].influence < factions["factions"][0].influence) {
         // 'controlling' is defined as having a majority of power
@@ -34,7 +34,6 @@ function changePowerDynamic(scale) {
 
         controllingFaction.$set("inPower", newFaction);
 
-
     } else {
         // everything is normal
         // change controlling faction
@@ -46,15 +45,12 @@ function changePowerDynamic(scale) {
             influenceLeft -= change;
             factions["factions"][i].influence = change;
 
-
             if (factions["factions"][i].influence < 0) {
                 factions["factions"].splice(i, 1);
                 numFactions--;
             }
 
-
         }
-
 
     }
 
@@ -64,7 +60,9 @@ function changePowerDynamic(scale) {
 
 
 }
-
+/**
+ * generates a positive event
+ */
 function positiveEvent() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -95,16 +93,58 @@ function positiveEvent() {
                         break;
                 }
             }
-
+            // replace the placeholder braces with actual text
             var bodyText = response["text"].format(placeholders);
+            // change power dynamics based on the event
             changePowerDynamic(response["influenceChange"]);
-            alert(bodyText);
         }
     };
     xhttp.open("GET", "../event/positive", true);
     xhttp.send();
 }
+/**
+ * effectively the same as the positive event, but bad
+ */
+function negativeEvent() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = this.responseText;
 
+            response = JSON.parse(response);
+
+            var placeholders = response["placeholders"];
+
+            // for each of the placeholders, we want to replace it
+            // with the relevant data
+            for(var i = 0; i < placeholders.length; i++){
+                switch(placeholders[i]){
+                    case "station":
+                        placeholders[i] = station.name;
+                        break;
+                    case "faction":
+                        placeholders[i] = controllingFaction.inPower.name;
+                        break;
+                    case "commodity":
+                        placeholders[i] = getRandomCommodity();
+                        break;
+                    case "person":
+                        placeholders[i] = getRandomPerson();
+                        break;
+                    case "system":
+                        break;
+                }
+            }
+            // replace the placeholder braces with actual text
+            var bodyText = response["text"].format(placeholders);
+            // change power dynamics based on the event
+            changePowerDynamic(response["influenceChange"]);
+            alert(bodyText);
+        }
+    };
+    xhttp.open("GET", "../event/negative", true);
+    xhttp.send();
+}
 function getNews(){
     var newsCount = 0
     

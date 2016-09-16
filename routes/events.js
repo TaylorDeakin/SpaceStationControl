@@ -10,18 +10,21 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-
+/**
+ * A positive event call
+ */
 router.get('/positive', function(req,res,next){
   var item = (messages["positiveEvent"].length);
   res.send(messages["positiveEvent"][control.getRandomInt(0,item)]);
 });
+
 router.get('/negative', function(req,res,next){
   var item = messages["negativeEvent"].length;
-  res.send(messages["negativeEvent"][item]);
+  res.send(messages["negativeEvent"][control.getRandomInt(0,item)]);
 });
 router.get('/news', function(req,res,next){
-  var len = messages["news"].length;
-  res.send(messages["negativeEvent"][len]);
+  var item = messages["news"].length;
+  res.send(messages["negativeEvent"][control.getRandomInt(0,item)]);
 
 });
 
