@@ -9,6 +9,10 @@ var events = [
 ];
 
 function randomEvent() {
+    if(occuredEventsCount == MAX_NEWS){
+        return
+    }
+
     randomFrom(events).call();
 }
 function randomFrom(array) {

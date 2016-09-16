@@ -1,4 +1,4 @@
-jQuery.ajaxSettings.traditional = true;
+
 var occuredEvents = [];
 var occuredEventsCount = 0;
 
@@ -109,6 +109,7 @@ function eventHandler(data) {
     // change power dynamics based on the event
     changePowerDynamic(data["influenceChange"]);
 
-    var item = {"title": title, "body": bodyText};
-    news["items"].push(item);
+    var item = {"title": title, "body": bodyText, "position": occuredEventsCount};
+    news["items"].unshift(item);
+
 }
