@@ -1,9 +1,7 @@
-function incrementFaction() {
-    controllingFaction.influence++;
-}
-function decrementFaction() {
-    controllingFaction.influence--;
-}
+jQuery.ajaxSettings.traditional = true;
+var occuredEvents = [];
+var occuredEventsCount = 0;
+
 function changePowerDynamic(scale) {
     // generate a random amount of change
     var changeAmount = Math.floor(Math.random() * scale) + 1;
@@ -64,43 +62,9 @@ function changePowerDynamic(scale) {
  * generates a positive event
  */
 function positiveEvent() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var response = this.responseText;
-
-            response = JSON.parse(response);
-
-            var placeholders = response["placeholders"];
-            
-            // for each of the placeholders, we want to replace it
-            // with the relevant data
-            for(var i = 0; i < placeholders.length; i++){
-                switch(placeholders[i]){
-                    case "station":
-                        placeholders[i] = station.name;
-                        break;
-                    case "faction":
-                        placeholders[i] = controllingFaction.inPower.name;
-                        break;
-                    case "commodity":
-                        placeholders[i] = getRandomCommodity();
-                        break;
-                    case "person":
-                        placeholders[i] = getRandomPerson();
-                        break;
-                    case "system":
-                        break;
-                }
-            }
-            // replace the placeholder braces with actual text
-            var bodyText = response["text"].format(placeholders);
-            // change power dynamics based on the event
-            changePowerDynamic(response["influenceChange"]);
-        }
-    };
-    xhttp.open("GET", "../event/positive", true);
-    xhttp.send();
+    $.post("../event/positive", {"occurred": occuredEvents}).done(function (data) {
+        eventHandler(data);
+    });
 }
 /**
  * effectively the same as the positive event, but bad
@@ -109,43 +73,48 @@ function negativeEvent() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            var response = this.responseText;
-
-            response = JSON.parse(response);
-
-            var placeholders = response["placeholders"];
-
-            // for each of the placeholders, we want to replace it
-            // with the relevant data
-            for(var i = 0; i < placeholders.length; i++){
-                switch(placeholders[i]){
-                    case "station":
-                        placeholders[i] = station.name;
-                        break;
-                    case "faction":
-                        placeholders[i] = controllingFaction.inPower.name;
-                        break;
-                    case "commodity":
-                        placeholders[i] = getRandomCommodity();
-                        break;
-                    case "person":
-                        placeholders[i] = getRandomPerson();
-                        break;
-                    case "system":
-                        break;
-                }
-            }
-            // replace the placeholder braces with actual text
-            var bodyText = response["text"].format(placeholders);
-            // change power dynamics based on the event
-            changePowerDynamic(response["influenceChange"]);
-            alert(bodyText);
+            eventHandler(this);
         }
     };
+
     xhttp.open("GET", "../event/negative", true);
     xhttp.send();
 }
-function getNews(){
-    var newsCount = 0
-    
+function eventHandler(data) {
+    occuredEvents[occuredEventsCount] = data["id"];
+    occuredEventsCount++;
+    var placeholders = data["placeholders"];
+
+    // for each of the placeholders, we want to replace it
+    // with the relevant data
+    for (var i = 0; i < placeholders.length; i++) {
+        switch (placeholders[i]) {
+            case "station":
+                placeholders[i] = station.name;
+                break;
+            case "faction":
+                placeholders[i] = controllingFaction.inPower.name;
+                break;
+            case "commodity":
+                placeholders[i] = getRandomCommodity();
+                break;
+            case "person":
+                placeholders[i] = getRandomPerson();
+                break;
+            case "system":
+                placeholders[i] = station.system;
+                break;
+            case "pirateShip":
+                placeholders[i] = getRandomPirateShip();
+                break;
+        }
+    }
+    // replace the placeholder braces with actual text
+    var title = data["title"].format(placeholders);
+    var bodyText = data["text"].format(placeholders);
+    // change power dynamics based on the event
+    changePowerDynamic(data["influenceChange"]);
+
+    var item = {"title": title, "body": bodyText};
+    news["items"].push(item);
 }

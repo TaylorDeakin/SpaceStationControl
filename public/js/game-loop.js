@@ -5,9 +5,6 @@ var events = [
     },
     function () {
         negativeEvent();
-    },
-    function () {
-        getNews();
     }
 ];
 
