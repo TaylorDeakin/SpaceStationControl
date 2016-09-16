@@ -7,10 +7,7 @@ function decrementFaction() {
 function changePowerDynamic(scale) {
     // generate a random amount of change
     var changeAmount = Math.floor(Math.random() * scale) + 1;
-    // change can be good too! (50% of the time for now)
-    if (Math.random() > 0.5) {
-        changeAmount *= -1;
-    }
+
     // get current influence
     var controllingFactionCurrentInfluence = controllingFaction["inPower"].influence;
     // figure out new influence
@@ -62,23 +59,24 @@ function changePowerDynamic(scale) {
 
     }
 
-    factions["factions"] = factions["factions"].sort(function(a,b){
+    factions["factions"] = factions["factions"].sort(function (a, b) {
         return b.influence - a.influence;
     });
 
 
 }
 
-function positiveEvent(){
-    var xhttp =new XMLHttpRequest();
+function positiveEvent() {
+    var xhttp = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function() {
-        if(this.readyState == 4 && this.status == 200){
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
             var response = this.responseText;
 
             response = JSON.parse(response);
-            var bodyText = response["text"].format(station.name,controllingFaction.inPower.name);
+            var bodyText = response["text"].format(station.name, controllingFaction.inPower.name);
 
+            changePowerDynamic(response["influenceChange"]);
             alert(bodyText);
         }
     };
