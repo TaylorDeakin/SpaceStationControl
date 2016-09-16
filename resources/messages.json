@@ -45,7 +45,7 @@
       "title": "",
       "text": "",
       "influenceChange": 1,
-      "placeholders": [],
+      "placeholders": [""],
       "id":4
     }
   ],
@@ -54,7 +54,7 @@
       "title": "Biowaste Spill Creates Havoc",
       "text": "",
       "influenceChange": -3,
-      "placeholders": [],
+      "placeholders": [""],
       "id":5
     },
     {

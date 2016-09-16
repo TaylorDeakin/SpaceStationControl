@@ -70,15 +70,9 @@ function positiveEvent() {
  * effectively the same as the positive event, but bad
  */
 function negativeEvent() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            eventHandler(this);
-        }
-    };
-
-    xhttp.open("GET", "../event/negative", true);
-    xhttp.send();
+    $.post("../event/negative", {"occurred": occuredEvents}).done(function (data) {
+        eventHandler(data);
+    });
 }
 function eventHandler(data) {
     occuredEvents[occuredEventsCount] = data["id"];

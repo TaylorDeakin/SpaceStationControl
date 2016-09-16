@@ -34,15 +34,45 @@ router.post('/positive', function (req, res, next) {
     }
 });
 
-router.get('/negative', function (req, res, next) {
-    console.log(req.body);
-    var item = messages["negativeEvent"].length;
-    res.send(messages["negativeEvent"][control.getRandomInt(0, item)]);
+router.post('/negative', function (req, res, next) {
+    var obj = req.body.occurred;
+    var x = [];
+    for(var i in obj){
+        x.push(parseInt(obj[i]));
+    }
+    console.log(x);
+
+    var len = (messages["negativeEvent"].length);
+    var item = control.getRandomInt(0,len);
+
+    var count = 0;
+    while(x.indexOf(item) > -1 && count < len){
+        item = control.getRandomInt(0,len);
+    }
+
+    if(x.indexOf((item) == -1)){
+        res.send(messages["negativeEvent"][item]);
+    }
 });
-router.get('/news', function (req, res, next) {
-    console.log(req.body);
-    var item = messages["news"].length;
-    res.send(messages["negativeEvent"][control.getRandomInt(0, item)]);
+router.post('/news', function (req, res, next) {
+    var obj = req.body.occurred;
+    var x = [];
+    for(var i in obj){
+        x.push(parseInt(obj[i]));
+    }
+    console.log(x);
+
+    var len = (messages["newsBulletin"].length);
+    var item = control.getRandomInt(0,len);
+
+    var count = 0;
+    while(x.indexOf(item) > -1 && count < len){
+        item = control.getRandomInt(0,len);
+    }
+
+    if(x.indexOf((item) == -1)){
+        res.send(messages["newsBulletin"][item]);
+    }
 
 });
 
