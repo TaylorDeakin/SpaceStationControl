@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var messages = require("../resources/messages.json");
 var GameControl = require("../scripts/Main");
 var control = new GameControl();
 

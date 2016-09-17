@@ -23,7 +23,8 @@ Main.prototype.makeNewStation = function () {
     var system = this.systenNames[this.getRandomInt(0, this.systenNames.length)];
     var stationName = this.stationNames[this.getRandomInt(0, this.stationNames.length)]
         + " " + this.stationTypes[this.getRandomInt(0, this.stationTypes.length)];
-    var controllingInfluence = this.getRandomInt(50, influenceMax);
+    // give controlling faction influence between 50 & 70
+    var controllingInfluence = this.getRandomInt(50, 70);
     var controllingFaction = this.makeNewFaction(system, controllingInfluence);
     influenceMax -= controllingInfluence;
 

@@ -3,7 +3,6 @@ var router = express.Router();
 var siteTitle = "Spacestation Control";
 var GameControl = require("../scripts/Main");
 var Station = require("../scripts/Station");
-var messages = require("../resources/messages.json");
 var control = new GameControl();
 
 /* GET home page. */
@@ -21,8 +20,6 @@ router.get('/station/:id', function(req,res,next){
 
     })
 });
-
-
 
 
 

@@ -4,51 +4,129 @@
             <div class="col-sm-12">
                 {{#with station}}
                     {{#with controllingFaction}}
-                        <h2>{{name}} | {{../system}}</h2>
+                        <h2>{{name}}<br><span class="station-name">{{../name}}</span></h2>
                     <div id="controlling-faction">
-                        <h3>Status: </h3>
+                        <h3 class="heading-info">Status: </h3>
                         <div class="influence-bar influence-bar-control"
                              v-bind:style="{ width: inPower.influence +'%' }"><span
                                 class="influence-bar-value">Influence: \{{ inPower.influence }}%</span></div>
                     {{/with}}
-                </div>
-                {{/with}}
 
+                {{/with}}
+                <h3 class="heading-info">Balance:</h3>
+                <span class="money">\{{ inPower.balance }}</span>
+            </div>
                 <p class="lead">{{status}}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Basic Resources</h3>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button id="resource-hydrogen" onclick="addResource('hydrogen')" class="btn-block btn-click">
+                            Collect
+                            Hydrogen
+                        </button>
+                        <button id="resource-food" onclick="addResource('food')" class="btn-block btn-click">Grow Food
+                        </button>
+                        <button id="resource-iron" onclick="addResource('iron')" class="btn-block btn-click">Mine Iron
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <ul class="list-unstyled list-padded">
+                            <li class="resource-output">Hydrogen: <span class="resource-amount">0</span></li>
+                            <li class="resource-output">Food: <span class="resource-amount">0</span></li>
+                            <li class="resource-output">Iron: <span class="resource-amount">0</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <section id="gather-rates">
+                            <ul class="list-unstyled list-padded">
+                                <li><span class="resource-gather-rate">0</span>/s</li>
+                                <li><span class="resource-gather-rate">0</span>/s</li>
+                                <li><span class="resource-gather-rate">0</span>/s</li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <h3>News</h3>
-                <div id="news">
-                    <ul class="list-unstyled">
-                        <li><h4>{{#with station}}{{#with controllingFaction}}{{name}} Appoint a new Overseer
-                            for{{/with}} {{name}}{{/with}}</h4>
-                            <p>Welcome to your new job, Overseer! Your task is to maintain control of this
-                                space-station,
-                                and grow our economic interests. </p>
-                        </li>
-                        <li v-for="news in items"><h4>\{{ news.title }}</h4>
-                            <p>\{{ news.body }}</p></li>
-                    </ul>
+                <h3>Workers</h3>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button id="hire-worker" onclick="hireWorker()" class="btn-block btn-click">Hire Worker</button>
+                        <h4>Assign Workers: </h4>
+                        <div class="btn-row">
+                            Hydrogen Miners:
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('hydrogen')" class="btn-click btn-assign">&#129152;</button>
+                                <span id="worker-count-hydrogen">0</span>
+                                <button onclick="assignWorker('hydrogen')" class="btn-click btn-assign">&#129154;</button>
+                            </span>
+
+                        </div>
+                        <div class="btn-row">
+                            Farmers:
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
+                                <span id="worker-count-food">0</span>
+                                <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
+                            </span>
+                        </div>
+                        <div class="btn-row">
+                            Iron Miners:
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('iron')" class="btn-click btn-assign">&#129152;</button>
+                                <span id="worker-count-iron">0</span>
+                                <button onclick="assignWorker('iron')" class="btn-click btn-assign btn-right">&#129154;</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+
+
+                    </div>
+                    <div class="col-sm-4"></div>
                 </div>
+
             </div>
         </div>
     </div>
-    <div class="col-sm-3 col-xs-12">
-        <h3>System Factions</h3>
-        <div id="factions">
+    <aside class="col-sm-3 col-xs-12 station-status">
+        <section id="station">
+            <h3>Station Status</h3>
+            <ul class="list-unstyled">
+                <li><strong>System: </strong>\{{ system }}</li>
+                <li><strong>Workers:</strong> <span id="worker-count">0</span></li>
+            </ul>
+        </section>
+        <section id="factions">
+            <h3>Rival Factions</h3>
             <ul class="list-unstyled">
                 <li v-for="faction in factions">\{{ faction.name }} | <span>\{{ faction.influence }}%</span> <br>
                     <div class="influence-bar" v-bind:style="{ width: faction.influence +'%' }">
-
                     </div>
                 </li>
             </ul>
-
-        </div>
-    </div>
-</div>
+        </section>
+        <section id="news">
+            <h3>System News</h3>
+            <ul class="list-unstyled list-news">
+                <li><h4>{{#with station}}{{#with controllingFaction}}{{name}} Appoint a new Overseer
+                    for{{/with}} {{name}}{{/with}}</h4>
+                    <p>Welcome to your new job, Overseer! Your task is to maintain control of this
+                        space-station,
+                        and grow our economic interests. </p>
+                </li>
+                <li v-for="news in items"><h4>\{{ news.title }}</h4>
+                    <p>\{{ news.body }}</p></li>
+            </ul>
+        </section>
+    </aside>
 </div>
 <script>
     var station = new Vue({
@@ -83,5 +161,6 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/utility.js"></script>
 <script src="/js/events.js"></script>
+<script src="/js/clickEvents.js"></script>
 
 <script src="/js/game-loop.js"></script>

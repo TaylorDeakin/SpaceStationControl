@@ -9,7 +9,7 @@ var events = [
 ];
 
 function randomEvent() {
-    if(occuredEventsCount == MAX_NEWS){
+    if (occuredEventsCount == MAX_NEWS) {
         return
     }
 
@@ -20,13 +20,39 @@ function randomFrom(array) {
 }
 
 /*(function loop() {
-    var rand = Math.round(Math.random() * (300 - 50)) + 50;
-    if (controllingFaction.influence > 100) {
-        station.name = "winner!";
-    } else {
-        setTimeout(function () {
-            randomEvent();
-            loop();
-        }, rand);
+ var rand = Math.round(Math.random() * (300 - 50)) + 50;
+ if (controllingFaction.influence > 100) {
+ station.name = "winner!";
+ } else {
+ setTimeout(function () {
+ randomEvent();
+ loop();
+ }, rand);
+ }
+ }());*/
+
+setInterval(function () {
+    gameTick();
+}, 1000);
+
+function gameTick() {
+
+    for (var key in resources) {
+        if (resources.hasOwnProperty(key)) {
+            var obj = resources[key];
+
+            obj.amount += obj.gatherRate;
+        }
     }
-}());*/
+
+    updateTotals();
+
+}
+
+function cheat(){
+    for(var key in resources){
+        if(resources.hasOwnProperty(key)){
+            resources[key].amount = 5000;
+        }
+    }
+}
