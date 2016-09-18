@@ -1,7 +1,17 @@
 body{
   font-family: $body-font-family;
+  font-size: 18px;
 }
 
 h1,h2,h3{
   font-family: $heading-font-family;
+}
+
+.station-name{
+  font-size: 0.75em;
+}
+
+.heading-info{
+  font-size: 1.125em;
+  font-weight: 300;
 }

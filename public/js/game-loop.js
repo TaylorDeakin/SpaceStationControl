@@ -1,30 +1,58 @@
 // game events
 var events = [
     function () {
-        changePowerDynamic(5);
+        positiveEvent();
     },
     function () {
-        changePowerDynamic(10);
-    },
-    function () {
-        changePowerDynamic(8);
-    },
-    function () {
-        changePowerDynamic(15);
+        negativeEvent();
     }
 ];
 
 function randomEvent() {
+    if (occuredEventsCount == MAX_NEWS) {
+        return
+    }
+
     randomFrom(events).call();
 }
 function randomFrom(array) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
-(function loop() {
-    var rand = Math.round(Math.random() * (3000 - 500)) + 500;
-    setTimeout(function () {
-        randomEvent();
-        loop();
-    }, rand);
-}());
+/*(function loop() {
+ var rand = Math.round(Math.random() * (300 - 50)) + 50;
+ if (controllingFaction.influence > 100) {
+ station.name = "winner!";
+ } else {
+ setTimeout(function () {
+ randomEvent();
+ loop();
+ }, rand);
+ }
+ }());*/
+
+setInterval(function () {
+    gameTick();
+}, 1000);
+
+function gameTick() {
+
+    for (var key in resources) {
+        if (resources.hasOwnProperty(key)) {
+            var obj = resources[key];
+
+            obj.amount += obj.gatherRate;
+        }
+    }
+
+    updateTotals();
+
+}
+
+function cheat(){
+    for(var key in resources){
+        if(resources.hasOwnProperty(key)){
+            resources[key].amount = 5000;
+        }
+    }
+}

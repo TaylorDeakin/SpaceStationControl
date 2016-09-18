@@ -1,7 +1,17 @@
 .influence-bar{
   height: 18px;
-  background: crimson;
+  background: $color-theme-primary;
 }
 .influence-bar-value{
   color: #fff;
+}
+.influence-bar-control{
+  background: lighten($color-theme-primary,10%);
+  height: 32px;
+}
+.influence-bar-control span{
+  font-size: 16px;
+  line-height: 32px;
+  float: right;
+  padding-right: 10px;
 }

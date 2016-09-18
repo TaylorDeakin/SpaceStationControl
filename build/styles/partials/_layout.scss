@@ -1,0 +1,26 @@
+body{
+  background: #eee;
+}
+
+.box{
+
+}
+.rule-left{
+  border-left: 3px dashed $color-theme-dark;
+  padding-left: 5px;
+}
+.station-status section{
+  border-bottom: 3px solid $color-theme-dark;
+  padding: 5px;
+}
+.worker-count{
+  width: 100%;
+}
+.btn-assign{
+}
+.btn-row{
+  padding: 10px 0;
+}
+.btn-group-right{
+  float: right;
+}
