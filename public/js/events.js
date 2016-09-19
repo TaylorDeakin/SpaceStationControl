@@ -109,8 +109,11 @@ var messages = {
 };
 //endregion
 
-var occuredEvents = [];
-var occuredEventsCount = 0;
+var occuredEvents = {
+    positive: 0,
+    negative: 0,
+    news: 0
+};
 
 function changePowerDynamic(scale) {
     // generate a random amount of change
@@ -172,18 +175,23 @@ function changePowerDynamic(scale) {
  * generates a positive event
  */
 function positiveEvent() {
-    eventHandler(messages.positive[0])
+    if(occuredEvents.positive > messages.negative.length){
+        return;
+    }
+    eventHandler(messages.positive[occuredEvents.positive]);
+    occuredEvents.positive++
 }
 /**
  * effectively the same as the positive event, but bad
  */
 function negativeEvent() {
-
-    eventHandler(messages.negative[0]);
+    if(occuredEvents.negative > messages.negative.length){
+        return;
+    }
+    eventHandler(messages.negative[occuredEvents.negative]);
+    occuredEvents.negative++;
 }
 function eventHandler(data) {
-    occuredEvents[occuredEventsCount] = data["id"];
-    occuredEventsCount++;
     var placeholders = data["placeholders"];
 
     // for each of the placeholders, we want to replace it

@@ -1,3 +1,7 @@
+// call once to init everything
+updateTotals();
+
+
 // game events
 var events = [
     function () {
@@ -41,7 +45,7 @@ function gameTick() {
         if (resources.hasOwnProperty(key)) {
             var obj = resources[key];
 
-            obj.amount += obj.gatherRate;
+            obj.amount += obj.gatherRate();
         }
     }
 
