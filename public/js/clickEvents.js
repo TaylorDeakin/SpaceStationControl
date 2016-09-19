@@ -14,7 +14,8 @@ var resources = {
         gatherRate: function () {
             return this.workers
         },
-        workers: 5
+        workers: 5,
+        maxStorage: 2000
     },
     food: {
         name: "Food",
@@ -25,7 +26,8 @@ var resources = {
         gatherRate: function () {
             return this.workers - population.currentFoodCost()
         },
-        workers: 10
+        workers: 10,
+        maxStorage: 2000
     },
     metal: {
         name: "metal",
@@ -36,7 +38,9 @@ var resources = {
         gatherRate: function () {
             return this.workers / 2;
         },
-        workers: 5
+        workers: 5,
+        maxStorage: 2000
+
     }
 };
 /**
@@ -59,16 +63,84 @@ var buildings = {
             metalCost: 50,
             popAdd: 2,
             count: 0,
-            purchase: function(){
-                this.count++;
-                this.metalCost += 5;
-                population.currentPopulationCap +=this.popAdd;
-                document.getElementById("apartment-cost").innerHTML = this.metalCost;
+            purchase: function () {
+                if (resources.metal.amount > this.metalCost) {
+                    resources.metal.amount -= this.metalCost;
+                    this.count++;
+                    this.metalCost += 5;
+                    population.currentPopulationCap += this.popAdd;
+                    document.getElementById("apartment-cost").innerHTML = this.metalCost;
+                }
+
             }
         }
     },
-    factories: {
-
+    factories: {},
+    storage: {
+        hydrogen: {
+            name: "Hydrogen Tank",
+            metalCost: 100,
+            storageAdd: 500,
+            count: 0,
+            purchase: function () {
+                if (resources.metal.amount > this.metalCost) {
+                    resources.metal.amount -= this.metalCost;
+                    this.count++;
+                    this.metalCost += 10;
+                    resources.hydrogen.maxStorage += this.storageAdd;
+                    document.getElementById("hydrogen-storage-cost").innerHTML = this.metalCost;
+                }
+            }
+        },
+        metal: {
+            name: "Metal Stockpile",
+            metalCost: 100,
+            storageAdd: 500,
+            count: 0,
+            purchase: function () {
+                if (resources.metal.amount > this.metalCost) {
+                    resources.metal.amount -= this.metalCost;
+                    this.count++;
+                    this.metalCost += 10;
+                    resources.metal.maxStorage += this.storageAdd;
+                    document.getElementById("metal-storage-cost").innerHTML = this.metalCost;
+                }
+            }
+        },
+        food: {
+            name: "Food Stockpile",
+            metalCost: 100,
+            storageAdd: 500,
+            count: 0,
+            purchase: function () {
+                if (resources.metal.amount > this.metalCost) {
+                    resources.metal.amount -= this.metalCost;
+                    this.count++;
+                    this.metalCost += 10;
+                    resources.metal.maxStorage += this.storageAdd;
+                    document.getElementById("food-storage-cost").innerHTML = this.metalCost;
+                }
+            }
+        },
+        shipyard: {
+            docks: {
+                small: {
+                    current: 0,
+                    max: 3
+                },
+                medium: {
+                    current: 0,
+                    max: 3
+                },
+                large: {
+                    current: 0,
+                    max: 3
+                }
+            },
+            facilites: {
+                repair: {}
+            }
+        }
     }
 };
 /*
@@ -84,7 +156,16 @@ var fleet = {
             hydrogenUsage: function () {
                 return this.count * 5
             },
-            count: 0
+            delay: 5,
+            count: 0,
+            purchase: function () {
+                if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.small.current != buildings.shipyard.docks.max) {
+                    resources.metal.amount -= this.metalCost;
+                    this.count++;
+                    this.metalCost += 15;
+
+                }
+            }
 
         },
         miner2: {
@@ -95,6 +176,7 @@ var fleet = {
             hydrogenUsage: function () {
                 return this.count * 10
             },
+            delay: 10,
             count: 0
 
         },
@@ -103,6 +185,7 @@ var fleet = {
                 return this.count * 100;
             },
             metalCost: 5000,
+            delay: 10,
             hydrogenUsage: function () {
                 return this.count * 25
             },
