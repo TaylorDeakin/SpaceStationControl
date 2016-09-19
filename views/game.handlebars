@@ -94,7 +94,7 @@
                         <h3>Station Status</h3>
                         <div class="row">
                             <div class="col-sm-6">
-                                <button id="hire-worker" onclick="hireWorker()" class="btn-block btn-click">
+                                <button id="hire-worker" onclick="population.hireWorker()" class="btn-block btn-click">
                                     Hire Worker [20 Food]
                                 </button>
                                 <ul class="list-unstyled ">
@@ -120,11 +120,16 @@
                 <h3>Buildings</h3>
                 <div class="row">
                     <div class="col-md-4">
-
-                        <button class="btn-block btn-click" onclick="buildings.housing.apartment.purchase()">Purchase
-                            Apartment<br>[<span id="apartment-cost">50 metal</span>](+2 Population)</button>
+                        <h4>Housing</h4>
+                        <button class="btn-block btn-click" onclick="buildings.housing.apartment.purchase()">
+                            Apartment<br>[<span id="apartment-cost">50</span> Metal](+2 Population)</button>
                     </div>
-                    <div class="col-md-6"></div>
+                    <div class="col-md-5">
+                        <h4>Storage</h4>
+                        <button class="btn-block btn-click" onclick="buildings.storage.hydrogen.purchase()">Hydrogen Tank <br>[<span id="hydrogen-storage-cost">100</span> Metal]<br>(+500 Hydrogen Storage)</button>
+                        <button class="btn-block btn-click" onclick="buildings.storage.food.purchase()">Food Storage <br>[<span id="food-storage-cost">100</span> Metal]<br>(+500 Food Storage)</button>
+                        <button class="btn-block btn-click" onclick="buildings.storage.metal.purchase()">Metal Storage <br>[<span id="metal-storage-cost">100</span> Metal]<br>(+500 Metal Storage)</button>
+                    </div>
                 </div>
             </div>
             <div class="col-sm-5"></div>
