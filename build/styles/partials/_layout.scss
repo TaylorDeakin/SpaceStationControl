@@ -14,12 +14,14 @@ body{
   padding: 5px;
 }
 .worker-count{
-  width: 100%;
+  width: 50px;
+  display: inline-block;
+  text-align: center;
 }
 .btn-assign{
 }
 .btn-row{
-  padding: 10px 0;
+  padding: 5px 0;
 }
 .btn-group-right{
   float: right;

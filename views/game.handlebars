@@ -19,29 +19,40 @@
                 <p class="lead">{{status}}</p>
             </div>
         </div>
-        <hr>
+
         <div class="row">
             <div class="col-sm-12">
                 <h3>Basic Resources</h3>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <button id="resource-hydrogen" onclick="addResource('hydrogen')" class="btn-block btn-click">
                             Collect
                             Hydrogen
                         </button>
                         <button id="resource-food" onclick="addResource('food')" class="btn-block btn-click">Grow Food
                         </button>
-                        <button id="resource-iron" onclick="addResource('iron')" class="btn-block btn-click">Mine Iron
+                        <button id="resource-metal" onclick="addResource('metal')" class="btn-block btn-click">Mine
+                            Metal
                         </button>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <ul class="list-unstyled list-padded">
                             <li class="resource-output">Hydrogen: <span class="resource-amount">0</span></li>
                             <li class="resource-output">Food: <span class="resource-amount">0</span></li>
-                            <li class="resource-output">Iron: <span class="resource-amount">0</span></li>
+                            <li class="resource-output">metal: <span class="resource-amount">0</span></li>
                         </ul>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <ul class="list-unstyled list-padded">
+                            <li class="resource-storage">Max Storage: <span id="hydrogen-storage-total"
+                                                                            class="resource-amount">2000</span></li>
+                            <li class="resource-storage">Max Storage: <span id="food-storage-total"
+                                                                            class="resource-amount">2000</span></li>
+                            <li class="resource-storage">Max Storage: <span id="metal-storage-total"
+                                                                            class="resource-amount">2000</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">
                         <section id="gather-rates">
                             <ul class="list-unstyled list-padded">
                                 <li><span class="resource-gather-rate">0</span>/s</li>
@@ -50,22 +61,41 @@
                             </ul>
                         </section>
                     </div>
+
                 </div>
             </div>
+
         </div>
         <div class="row">
-            <div class="col-sm-12">
-                <h3>Workers</h3>
+            <div class="col-md-12">
+                <h3>Population</h3>
+
                 <div class="row">
-                    <div class="col-sm-4">
-                        <button id="hire-worker" onclick="hireWorker()" class="btn-block btn-click">Hire Worker</button>
-                        <h4>Assign Workers: </h4>
+                    <div class="col-sm-3">
+                        <ul class="list-unstyled ">
+                            <li class="resource-output">Workers: <span id="worker-count"
+                                                                       class="resource-amount">0</span></li>
+                            <li class="resource-output">Max Population: <span id="max-population"
+                                                                              class="resource-amount">0</span></li>
+                            <li class="resource-output">Food Cost(/s): <span id="food-cost"
+                                                                             class="resource-amount">0</span>
+                            </li>
+                            <li class="resource-output">Unemployed: <span id="unemployed-count"
+                                                                          class="resource-amount">0</span></li>
+                        </ul>
+                        <button id="hire-worker" onclick="population.hireWorker()" class="btn-block btn-click">
+                            Hire Worker [20 Food]
+                        </button>
+                    </div>
+                    <div class="col-sm-5">
                         <div class="btn-row">
                             Hydrogen Miners:
                             <span class="btn-group-right">
-                                <button onclick="unassignWorker('hydrogen')" class="btn-click btn-assign">&#129152;</button>
-                                <span id="worker-count-hydrogen">0</span>
-                                <button onclick="assignWorker('hydrogen')" class="btn-click btn-assign">&#129154;</button>
+                                <button onclick="unassignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-hydrogen">0</span>
+                                <button onclick="assignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#129154;</button>
                             </span>
 
                         </div>
@@ -73,35 +103,60 @@
                             Farmers:
                             <span class="btn-group-right">
                                 <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
-                                <span id="worker-count-food">0</span>
+                                <span class="worker-count" id="worker-count-food">0</span>
                                 <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
                             </span>
                         </div>
                         <div class="btn-row">
-                            Iron Miners:
+                            Asteroid Miners:
                             <span class="btn-group-right">
-                                <button onclick="unassignWorker('iron')" class="btn-click btn-assign">&#129152;</button>
-                                <span id="worker-count-iron">0</span>
-                                <button onclick="assignWorker('iron')" class="btn-click btn-assign btn-right">&#129154;</button>
+                                <button onclick="unassignWorker('metal')"
+                                        class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-metal">0</span>
+                                <button onclick="assignWorker('metal')"
+                                        class="btn-click btn-assign btn-right">&#129154;</button>
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-
-
-                    </div>
-                    <div class="col-sm-4"></div>
                 </div>
-
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Buildings</h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Housing</h4>
+                        <button class="btn-block btn-click" onclick="buildings.housing.apartment.purchase()">
+                            Apartment<br>[<span id="apartment-cost">50</span> Metal](+2 Population)
+                        </button>
+                    </div>
+                    <div class="col-md-5">
+                        <h4>Storage</h4>
+                        <button class="btn-block btn-click" onclick="buildings.storage.hydrogen.purchase()">Hydrogen
+                            Tank <br>[<span id="hydrogen-storage-cost">100</span> Metal]<br>(+500 Hydrogen Storage)
+                        </button>
+                        <button class="btn-block btn-click" onclick="buildings.storage.food.purchase()">Food Storage
+                            <br>[<span id="food-storage-cost">100</span> Metal]<br>(+500 Food Storage)
+                        </button>
+                        <button class="btn-block btn-click" onclick="buildings.storage.metal.purchase()">Metal Storage
+                            <br>[<span id="metal-storage-cost">100</span> Metal]<br>(+500 Metal Storage)
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h3>Fleet</h3>
+            </div>
+        </div>
+
     </div>
     <aside class="col-sm-3 col-xs-12 station-status">
         <section id="station">
-            <h3>Station Status</h3>
+            <h3>System Status</h3>
             <ul class="list-unstyled">
                 <li><strong>System: </strong>\{{ system }}</li>
-                <li><strong>Workers:</strong> <span id="worker-count">0</span></li>
+                <li><strong>Known Pirates:</strong> 3</li>
             </ul>
         </section>
         <section id="factions">
@@ -116,14 +171,15 @@
         <section id="news">
             <h3>System News</h3>
             <ul class="list-unstyled list-news">
+
+                <li v-for="news in items"><h4 class="news-title">\{{ news.title }}</h4>
+                    <p>\{{ news.body }}</p></li>
                 <li><h4>{{#with station}}{{#with controllingFaction}}{{name}} Appoint a new Overseer
                     for{{/with}} {{name}}{{/with}}</h4>
                     <p>Welcome to your new job, Overseer! Your task is to maintain control of this
                         space-station,
                         and grow our economic interests. </p>
                 </li>
-                <li v-for="news in items"><h4>\{{ news.title }}</h4>
-                    <p>\{{ news.body }}</p></li>
             </ul>
         </section>
     </aside>
