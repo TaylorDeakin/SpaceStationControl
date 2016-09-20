@@ -21,7 +21,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-7">
+            <div class="col-sm-12">
                 <h3>Basic Resources</h3>
                 <div class="row">
                     <div class="col-sm-3">
@@ -42,7 +42,17 @@
                             <li class="resource-output">metal: <span class="resource-amount">0</span></li>
                         </ul>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-3">
+                        <ul class="list-unstyled list-padded">
+                            <li class="resource-storage">Max Storage: <span id="hydrogen-storage-total"
+                                                                            class="resource-amount">2000</span></li>
+                            <li class="resource-storage">Max Storage: <span id="food-storage-total"
+                                                                            class="resource-amount">2000</span></li>
+                            <li class="resource-storage">Max Storage: <span id="metal-storage-total"
+                                                                            class="resource-amount">2000</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2">
                         <section id="gather-rates">
                             <ul class="list-unstyled list-padded">
                                 <li><span class="resource-gather-rate">0</span>/s</li>
@@ -50,6 +60,32 @@
                                 <li><span class="resource-gather-rate">0</span>/s</li>
                             </ul>
                         </section>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Population</h3>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <ul class="list-unstyled ">
+                            <li class="resource-output">Workers: <span id="worker-count"
+                                                                       class="resource-amount">0</span></li>
+                            <li class="resource-output">Max Population: <span id="max-population"
+                                                                              class="resource-amount">0</span></li>
+                            <li class="resource-output">Food Cost(/s): <span id="food-cost"
+                                                                             class="resource-amount">0</span>
+                            </li>
+                            <li class="resource-output">Unemployed: <span id="unemployed-count"
+                                                                          class="resource-amount">0</span></li>
+                        </ul>
+                        <button id="hire-worker" onclick="population.hireWorker()" class="btn-block btn-click">
+                            Hire Worker [20 Food]
+                        </button>
                     </div>
                     <div class="col-sm-5">
                         <div class="btn-row">
@@ -81,58 +117,37 @@
                                         class="btn-click btn-assign btn-right">&#129154;</button>
                             </span>
                         </div>
-                        <div class="btn-row">
-                            <p class="resource-output">Unemployed: <span id="unemployed-count"
-                                                                         class="resource-amount">0</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-5">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h3>Station Status</h3>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <button id="hire-worker" onclick="population.hireWorker()" class="btn-block btn-click">
-                                    Hire Worker [20 Food]
-                                </button>
-                                <ul class="list-unstyled ">
-                                    <li class="resource-output">Workers: <span id="worker-count" class="resource-amount">0</span></li>
-                                    <li class="resource-output">Max Population: <span id="max-population" class="resource-amount">0</span></li>
-                                    <li class="resource-output">Food Cost(/s): <span id="food-cost" class="resource-amount">0</span></li>
-                                </ul>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-7">
-                <h3>Fleet</h3>
-            </div>
-            <div class="col-sm-5"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-7">
+            <div class="col-sm-6">
                 <h3>Buildings</h3>
                 <div class="row">
                     <div class="col-md-4">
                         <h4>Housing</h4>
                         <button class="btn-block btn-click" onclick="buildings.housing.apartment.purchase()">
-                            Apartment<br>[<span id="apartment-cost">50</span> Metal](+2 Population)</button>
+                            Apartment<br>[<span id="apartment-cost">50</span> Metal](+2 Population)
+                        </button>
                     </div>
                     <div class="col-md-5">
                         <h4>Storage</h4>
-                        <button class="btn-block btn-click" onclick="buildings.storage.hydrogen.purchase()">Hydrogen Tank <br>[<span id="hydrogen-storage-cost">100</span> Metal]<br>(+500 Hydrogen Storage)</button>
-                        <button class="btn-block btn-click" onclick="buildings.storage.food.purchase()">Food Storage <br>[<span id="food-storage-cost">100</span> Metal]<br>(+500 Food Storage)</button>
-                        <button class="btn-block btn-click" onclick="buildings.storage.metal.purchase()">Metal Storage <br>[<span id="metal-storage-cost">100</span> Metal]<br>(+500 Metal Storage)</button>
+                        <button class="btn-block btn-click" onclick="buildings.storage.hydrogen.purchase()">Hydrogen
+                            Tank <br>[<span id="hydrogen-storage-cost">100</span> Metal]<br>(+500 Hydrogen Storage)
+                        </button>
+                        <button class="btn-block btn-click" onclick="buildings.storage.food.purchase()">Food Storage
+                            <br>[<span id="food-storage-cost">100</span> Metal]<br>(+500 Food Storage)
+                        </button>
+                        <button class="btn-block btn-click" onclick="buildings.storage.metal.purchase()">Metal Storage
+                            <br>[<span id="metal-storage-cost">100</span> Metal]<br>(+500 Metal Storage)
+                        </button>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-5"></div>
+            <div class="col-sm-6">
+                <h3>Fleet</h3>
+            </div>
         </div>
 
     </div>

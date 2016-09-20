@@ -86,12 +86,15 @@ var buildings = {
                     switch (this.element) {
                         case "hydrogen-storage-cost":
                             resources.hydrogen.maxStorage += this.storageAdd;
+                            document.getElementById("hydrogen-storage-total").innerHTML = resources.hydrogen.maxStorage;
                             break;
                         case "food-storage-cost":
                             resources.food.maxStorage += this.storageAdd;
+                            document.getElementById("food-storage-total").innerHTML = resources.hydrogen.maxStorage;
                             break;
                         case "metal-storage-cost":
                             resources.hydrogen.maxStorage += this.storageAdd;
+                            document.getElementById("metal-storage-total").innerHTML = resources.hydrogen.maxStorage;
                             break;
                     }
                 }
@@ -177,6 +180,11 @@ var buildings = {
  * Fleet object - keeps track of the ships in the fleet
  */
 var fleet = {
+    methods: {
+        hydrogenUsage: function (rate) {
+            return this.count * rate;
+        }
+    },
     miners: {
         miner1: {
             miningRate: function () {
@@ -184,7 +192,7 @@ var fleet = {
             },
             metalCost: 500,
             hydrogenUsage: function () {
-                return this.count * 5
+                this.methods.hydrogenUsage().call(this, 5);
             },
             delay: 5,
             count: 0,
@@ -205,7 +213,7 @@ var fleet = {
             },
             metalCost: 1500,
             hydrogenUsage: function () {
-                return this.count * 10
+                this.methods.hydrogenUsage().call(this, 15);
             },
             delay: 10,
             count: 0,
@@ -226,7 +234,7 @@ var fleet = {
             metalCost: 5000,
             delay: 10,
             hydrogenUsage: function () {
-                return this.count * 25
+                this.methods.hydrogenUsage().call(this, 25);
             },
             count: 0,
             purchase: function () {
@@ -247,7 +255,7 @@ var fleet = {
             },
             metalCost: 500,
             hydrogenUsage: function () {
-                return this.count * 10
+                this.methods.hydrogenUsage().call(this, 10);
             },
             count: 0
         },
@@ -255,9 +263,9 @@ var fleet = {
             tradeProfit: function () {
                 return getRandomInt(1500, 5000)
             },
-            metalCost: 500,
+            metalCost: 1500,
             hydrogenUsage: function () {
-                return this.count * 20
+                this.methods.hydrogenUsage().call(this, 20);
             },
             count: 0
         },
@@ -265,13 +273,46 @@ var fleet = {
             tradeProfit: function () {
                 return getRandomInt(5000, 50000)
             },
-            metalCost: 500,
+            metalCost: 5000,
             hydrogenUsage: function () {
-                return this.count * 50
+                this.methods.hydrogenUsage().call(this, 50);
+            },
+            count: 0
+        }
+    },
+    explorers: {
+        explorer1: {
+            explore: function () {
+                return 0; //TODO: implement exploration feature
+            },
+            metalCost: 500,
+            hydrogenUsage(){
+                this.methods.hydrogenUsage().call(this, 35);
+            },
+            count: 0
+        },
+        explorer2: {
+            explore: function () {
+                return 0; //TODO: implement exploration feature
+            },
+            metalCost: 500,
+            hydrogenUsage(){
+                this.methods.hydrogenUsage().call(this, 55);
+            },
+            count: 0
+        },
+        explorer3: {
+            explore: function () {
+                return 0; //TODO: implement exploration feature
+            },
+            metalCost: 500,
+            hydrogenUsage(){
+                this.methods.hydrogenUsage().call(this, 75);
             },
             count: 0
         }
     }
+
 };
 /**
  * adds the specified resource to the counter

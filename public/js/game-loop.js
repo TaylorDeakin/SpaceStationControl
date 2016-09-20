@@ -44,8 +44,14 @@ function gameTick() {
     for (var key in resources) {
         if (resources.hasOwnProperty(key)) {
             var obj = resources[key];
+            if (obj.amount < obj.maxStorage) {
+                obj.amount += obj.gatherRate();
+            }
 
-            obj.amount += obj.gatherRate();
+            if(obj.amount > obj.maxStorage){
+                obj.amount = obj.maxStorage;
+            }
+
         }
     }
 
@@ -53,9 +59,9 @@ function gameTick() {
 
 }
 
-function cheat(){
-    for(var key in resources){
-        if(resources.hasOwnProperty(key)){
+function cheat() {
+    for (var key in resources) {
+        if (resources.hasOwnProperty(key)) {
             resources[key].amount = 5000;
         }
     }
