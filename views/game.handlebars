@@ -8,13 +8,11 @@
                     <div id="controlling-faction">
                         <h3 class="heading-info">Status: </h3>
                         <div class="influence-bar influence-bar-control"
-                             v-bind:style="{ width: inPower.influence +'%' }"><span
-                                class="influence-bar-value">Influence: \{{ inPower.influence }}%</span></div>
+                             style="width: {{influence}}%"><span
+                                class="influence-bar-value">Influence: {{influence }}%</span></div>
                     {{/with}}
 
                 {{/with}}
-                <h3 class="heading-info">Balance:</h3>
-                <span class="money">\{{ inPower.balance }}</span>
             </div>
                 <p class="lead">{{status}}</p>
             </div>
@@ -155,25 +153,29 @@
         <section id="station">
             <h3>System Status</h3>
             <ul class="list-unstyled">
-                <li><strong>System: </strong>\{{ system }}</li>
-                <li><strong>Known Pirates:</strong> 3</li>
+                {{#with station}}
+                    <li><strong>System: </strong>{{system}}</li>
+                    <li><strong>Known Pirates:</strong> 3</li>
+                {{/with}}
             </ul>
         </section>
         <section id="factions">
             <h3>Rival Factions</h3>
             <ul class="list-unstyled">
-                <li v-for="faction in factions">\{{ faction.name }} | <span>\{{ faction.influence }}%</span> <br>
-                    <div class="influence-bar" v-bind:style="{ width: faction.influence +'%' }">
-                    </div>
-                </li>
+                {{#with station.factionList}}
+                    {{#each this}}
+                        <li>{{ name }} | <span>{{influence }}%</span> <br>
+                            <div class="influence-bar" style="width: {{influence}}%">
+                            </div>
+                        </li>
+                    {{/each}}
+                {{/with}}
+
             </ul>
         </section>
         <section id="news">
             <h3>System News</h3>
             <ul class="list-unstyled list-news">
-
-                <li v-for="news in items"><h4 class="news-title">\{{ news.title }}</h4>
-                    <p>\{{ news.body }}</p></li>
                 <li><h4>{{#with station}}{{#with controllingFaction}}{{name}} Appoint a new Overseer
                     for{{/with}} {{name}}{{/with}}</h4>
                     <p>Welcome to your new job, Overseer! Your task is to maintain control of this
@@ -185,34 +187,35 @@
     </aside>
 </div>
 <script>
-    var station = new Vue({
-        el: '#station',
+    var station = {
         {{#with station}}
-            data: {{{jsonString}}}
-        {{/with}}
-    });
-
-    var news = new Vue({
-        el: '#news',
-        data: {"items": []}
-    });
-
-    var factions = new Vue({
-        el: '#factions',
-        {{#with station}}
-            data: {{{factionString}}}
-        {{/with}}
-    });
-
-    var controllingFaction = new Vue({
-        el: "#controlling-faction",
-        {{#with station}}
-            {{#with controllingFaction}}
-                data: {"inPower": {{{json}}} }
+            name: "{{name}}",
+            system: "{{system}}",
+            controllingFaction: {
+                name: "{{controllingFaction.name}}",
+                influence: "{{controllingFaction.influence}}"
+            },
+        factions: [
+            {
+                name: "{{controllingFaction.name}}",
+                influence: {{controllingFaction.influence}},
+                inPower: true
+            },
+            {{#with factionList}}
+                {{#each this}}
+                    {
+                        name: "{{name}}",
+                        influence: {{influence}},
+                        inPower: false
+                    },
+                {{/each}}
+            ]
             {{/with}}
 
         {{/with}}
-    });
+    };
+
+
 </script>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/utility.js"></script>
