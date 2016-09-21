@@ -1,3 +1,4 @@
+var newsElement = document.getElementById("news-list");
 //region Events Objects
 var messages = {
     positive: [
@@ -52,6 +53,16 @@ var messages = {
     ],
     negative: [
         {
+            "title": "Discontentment Grows as Station-wide Shortage Continues",
+            "text": "For weeks, citizens of {0} have been without {1}. As the shortage continues, the population becomes more discontent with the current rule.",
+            "influenceChange": -6,
+            "placeholders": [
+                "station",
+                "commodity"
+            ],
+            "id": 7
+        },
+        {
             "title": "Biowaste Spill Creates Havoc",
             "text": "",
             "influenceChange": -3,
@@ -66,16 +77,6 @@ var messages = {
                 "faction"
             ],
             "id": 6
-        },
-        {
-            "title": "Discontentment Grows as Station-wide Shortage Continues",
-            "text": "For weeks, citizens of {0} have been without {1}. As the shortage continues, the population becomes more discontent with the current rule.",
-            "influenceChange": -6,
-            "placeholders": [
-                "station",
-                "commodity"
-            ],
-            "id": 7
         },
         {
             "title": "Two Hundred Dead After Catastrophic Oxygen Leak; Citizens Want an Investigation",
@@ -118,46 +119,47 @@ var occuredEvents = {
 function changePowerDynamic(scale) {
     // generate a random amount of change
     var changeAmount = Math.floor(Math.random() * scale) + 1;
-
+    console.log(scale);
     // get current influence
-    var controllingFactionCurrentInfluence = controllingFaction["inPower"].influence;
+    var controllingFactionCurrentInfluence = station.controllingFaction.influence;
     // figure out new influence
     var controllingFactionChangedInfluence = controllingFactionCurrentInfluence + changeAmount;
     // get number of factions
-    var numFactions = factions["factions"].length;
+    var numFactions = station.factions.length - 1;
     if (numFactions == 0) {
-        controllingFaction["inPower"].influence = 100;
+        station.controllingFaction.influence = 100;
         station.name = "winner!";
         return
     }
 
     // if change would put the station over 100%
-    if (controllingFaction["inPower"].influence + changeAmount > 100) {
+    if (station.controllingFaction.influence + changeAmount > 100) {
 
-    } else if (controllingFaction["inPower"].influence < factions["factions"][0].influence) {
+    } else if (station.controllingFaction.influence < station.factions[0].influence) {
         // 'controlling' is defined as having a majority of power
 
 
-        var currentFaction = controllingFaction["inPower"];
+        var currentFaction = station.controllingFaction;
         // it's sorted already
-        var newFaction = factions["factions"][0];
-        factions["factions"][0] = currentFaction;
+        var newFaction = station.factions[0];
+        station.factions[0] = currentFaction;
 
-        controllingFaction.$set("inPower", newFaction);
 
     } else {
         // everything is normal
         // change controlling faction
-        controllingFaction["inPower"].influence = controllingFactionChangedInfluence;
+        station.controllingFaction.influence = controllingFactionChangedInfluence;
         // dole out the change equally to everyone else
         var influenceLeft = 100 - controllingFactionChangedInfluence;
+        var influenceBlockElements = document.getElementsByClassName("influence-block");
         for (var i = 0; i < numFactions; i++) {
             var change = Math.floor(influenceLeft / (numFactions - i) - Math.floor(Math.random() * scale / 2));
             influenceLeft -= change;
-            factions["factions"][i].influence = change;
-
-            if (factions["factions"][i].influence < 0) {
-                factions["factions"].splice(i, 1);
+            station.factions[i].influence = change;
+            influenceBlockElements[i].children[0].innerHTML = change + "%";
+            influenceBlockElements[i].children[2].style.width = change + "%";
+            if (station.factions[i].influence < 0) {
+                station.factions.splice(i, 1);
                 numFactions--;
             }
 
@@ -165,32 +167,16 @@ function changePowerDynamic(scale) {
 
     }
 
-    factions["factions"] = factions["factions"].sort(function (a, b) {
+    station.factions = station.factions.sort(function (a, b) {
         return b.influence - a.influence;
     });
 
-
 }
 /**
- * generates a positive event
+ * Abstract event handler
+ * @param data - data is object holding information about the event
+ *             - this includes influence change, placeholders and so forth
  */
-function positiveEvent() {
-    if(occuredEvents.positive > messages.negative.length){
-        return;
-    }
-    eventHandler(messages.positive[occuredEvents.positive]);
-    occuredEvents.positive++
-}
-/**
- * effectively the same as the positive event, but bad
- */
-function negativeEvent() {
-    if(occuredEvents.negative > messages.negative.length){
-        return;
-    }
-    eventHandler(messages.negative[occuredEvents.negative]);
-    occuredEvents.negative++;
-}
 function eventHandler(data) {
     var placeholders = data["placeholders"];
 
@@ -202,7 +188,7 @@ function eventHandler(data) {
                 placeholders[i] = station.name;
                 break;
             case "faction":
-                placeholders[i] = controllingFaction.inPower.name;
+                placeholders[i] = station.controllingFaction.name;
                 break;
             case "commodity":
                 placeholders[i] = getRandomCommodity();
@@ -218,6 +204,7 @@ function eventHandler(data) {
                 break;
         }
     }
+
     // replace the placeholder braces with actual text
     var title = data["title"].format(placeholders);
     var bodyText = data["text"].format(placeholders);
@@ -225,6 +212,40 @@ function eventHandler(data) {
     changePowerDynamic(data["influenceChange"]);
 
     var item = {"title": title, "body": bodyText};
-    news["items"].unshift(item);
+    addNews(item);
+
 
 }
+
+function addNews(item) {
+    var newsItem = document.createElement("LI");
+    var heading = document.createElement("H4");
+    heading.appendChild(document.createTextNode(item.title));
+    // I needed to allow for HTML entities, but still have the heading at the top of the element
+    // thus this is the solution
+    newsItem.innerHTML = item.body;
+    newsItem.insertBefore(heading, newsItem.firstChild);
+
+
+    news.unshift(item);
+    newsElement.insertBefore(newsItem, newsElement.firstChild);
+}
+
+
+/* Delayed Events */
+var delays = {
+    FIRST_DISCONTENTMENT_BULLETIN: 2500,
+    PIRATE_FIRST_ARRIVAL: 3000 * 60,
+    PIRATE_INVASION_BEGINS: 4500 * 60
+};
+
+// discontent
+
+setTimeout(function () {
+
+    var data = messages.negative[0];
+    eventHandler(data);
+
+}, delays.FIRST_DISCONTENTMENT_BULLETIN);
+
+

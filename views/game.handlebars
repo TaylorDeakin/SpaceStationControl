@@ -164,7 +164,7 @@
             <ul class="list-unstyled">
                 {{#with station.factionList}}
                     {{#each this}}
-                        <li>{{ name }} | <span>{{influence }}%</span> <br>
+                        <li id="influence-block-{{@index}}" class="influence-block">{{ name }} | <span class="influence-value">{{influence }}%</span> <br>
                             <div class="influence-bar" style="width: {{influence}}%">
                             </div>
                         </li>
@@ -175,7 +175,7 @@
         </section>
         <section id="news">
             <h3>System News</h3>
-            <ul class="list-unstyled list-news">
+            <ul class="list-unstyled list-news" id="news-list">
                 <li><h4>{{#with station}}{{#with controllingFaction}}{{name}} Appoint a new Overseer
                     for{{/with}} {{name}}{{/with}}</h4>
                     <p>Welcome to your new job, Overseer! Your task is to maintain control of this
@@ -193,7 +193,7 @@
             system: "{{system}}",
             controllingFaction: {
                 name: "{{controllingFaction.name}}",
-                influence: "{{controllingFaction.influence}}"
+                influence: {{controllingFaction.influence}}
             },
         factions: [
             {
@@ -214,6 +214,8 @@
 
         {{/with}}
     };
+
+    var news = [];
 
 
 </script>
