@@ -54,12 +54,11 @@ var population = {
         return Math.ceil(this.currentWorkers / 4)
     },
     hireWorker: function () {
-        if (resources.food.amount < 20 && ((this.currentWorkers + this.currentUnemployed) >= this.currentPopulationCap)) {
+        if (resources.food.amount < 20 || ((this.currentWorkers + this.currentUnemployed) >= this.currentPopulationCap)) {
             return;
         }
 
         resources.food.amount -= 20;
-        this.currentWorkers++;
         this.currentUnemployed++;
 
         updateTotals();
