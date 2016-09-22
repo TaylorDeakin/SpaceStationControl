@@ -183,6 +183,31 @@ var fleet = {
     methods: {
         hydrogenUsage: function (rate) {
             return this.count * rate;
+        },
+        purchase: function (size) {
+            switch (size) {
+                case 1:
+                    if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.small.current != buildings.shipyard.docks.small.max) {
+                        resources.metal.amount -= this.metalCost;
+                        buildings.shipyard.small.current++;
+                    }
+
+                    break;
+                case 2:
+                    if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.medium.current != buildings.shipyard.docks.medium.max) {
+                        resources.metal.amount -= this.metalCost;
+                        buildings.shipyard.medium.current++;
+                    }
+                    break;
+
+                case 3:
+                    if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.large.current != buildings.shipyard.docks.large.max) {
+                        resources.metal.amount -= this.metalCost;
+                        buildings.shipyard.large.current++;
+                    }
+                    break;
+            }
+
         }
     },
     miners: {
@@ -196,15 +221,6 @@ var fleet = {
             },
             delay: 5,
             count: 0,
-            purchase: function () {
-                if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.small.current != buildings.shipyard.docks.small.max) {
-                    resources.metal.amount -= this.metalCost;
-                    this.count++;
-                    this.metalCost += 15;
-                    buildings.shipyard.small.current++;
-
-                }
-            }
 
         },
         miner2: {
@@ -217,15 +233,7 @@ var fleet = {
             },
             delay: 10,
             count: 0,
-            purchase: function () {
-                if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.medium.current != buildings.shipyard.docks.medium.max) {
-                    resources.metal.amount -= this.metalCost;
-                    this.count++;
-                    this.metalCost += 15;
-                    buildings.shipyard.docks.medium.current++;
 
-                }
-            }
         },
         miner3: {
             miningRate: function () {
@@ -237,82 +245,74 @@ var fleet = {
                 this.methods.hydrogenUsage().call(this, 25);
             },
             count: 0,
-            purchase: function () {
-                if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.small.current != buildings.shipyard.docks.medium.max) {
-                    resources.metal.amount -= this.metalCost;
-                    this.count++;
-                    this.metalCost += 15;
-                    buildings.shipyard.docks.medium.current++;
 
-                }
+        },
+        traders: {
+            trader1: {
+                tradeProfit: function () {
+                    return getRandomInt(500, 1000)
+                },
+                metalCost: 500,
+                hydrogenUsage: function () {
+                    this.methods.hydrogenUsage().call(this, 10);
+                },
+                count: 0
+            },
+            trader2: {
+                tradeProfit: function () {
+                    return getRandomInt(1500, 5000)
+                },
+                metalCost: 1500,
+                hydrogenUsage: function () {
+                    this.methods.hydrogenUsage().call(this, 20);
+                },
+                count: 0
+            },
+            trader3: {
+                tradeProfit: function () {
+                    return getRandomInt(5000, 50000)
+                },
+                metalCost: 5000,
+                hydrogenUsage: function () {
+                    this.methods.hydrogenUsage().call(this, 50);
+                },
+                count: 0
+            }
+        },
+        explorers: {
+            explorer1: {
+                explore: function () {
+                    return 0; //TODO: implement exploration feature
+                },
+                metalCost: 500,
+                hydrogenUsage(){
+                    this.methods.hydrogenUsage().call(this, 35);
+                },
+                count: 0
+            },
+            explorer2: {
+                explore: function () {
+                    return 0; //TODO: implement exploration feature
+                },
+                metalCost: 500,
+                hydrogenUsage(){
+                    this.methods.hydrogenUsage().call(this, 55);
+                },
+                count: 0
+            },
+            explorer3: {
+                explore: function () {
+                    return 0; //TODO: implement exploration feature
+                },
+                metalCost: 500,
+                hydrogenUsage(){
+                    this.methods.hydrogenUsage().call(this, 75);
+                },
+                count: 0
             }
         }
-    },
-    traders: {
-        trader1: {
-            tradeProfit: function () {
-                return getRandomInt(500, 1000)
-            },
-            metalCost: 500,
-            hydrogenUsage: function () {
-                this.methods.hydrogenUsage().call(this, 10);
-            },
-            count: 0
-        },
-        trader2: {
-            tradeProfit: function () {
-                return getRandomInt(1500, 5000)
-            },
-            metalCost: 1500,
-            hydrogenUsage: function () {
-                this.methods.hydrogenUsage().call(this, 20);
-            },
-            count: 0
-        },
-        trader3: {
-            tradeProfit: function () {
-                return getRandomInt(5000, 50000)
-            },
-            metalCost: 5000,
-            hydrogenUsage: function () {
-                this.methods.hydrogenUsage().call(this, 50);
-            },
-            count: 0
-        }
-    },
-    explorers: {
-        explorer1: {
-            explore: function () {
-                return 0; //TODO: implement exploration feature
-            },
-            metalCost: 500,
-            hydrogenUsage(){
-                this.methods.hydrogenUsage().call(this, 35);
-            },
-            count: 0
-        },
-        explorer2: {
-            explore: function () {
-                return 0; //TODO: implement exploration feature
-            },
-            metalCost: 500,
-            hydrogenUsage(){
-                this.methods.hydrogenUsage().call(this, 55);
-            },
-            count: 0
-        },
-        explorer3: {
-            explore: function () {
-                return 0; //TODO: implement exploration feature
-            },
-            metalCost: 500,
-            hydrogenUsage(){
-                this.methods.hydrogenUsage().call(this, 75);
-            },
-            count: 0
-        }
-    }
 
+    }
 };
 /**
  * adds the specified resource to the counter

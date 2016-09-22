@@ -80,7 +80,7 @@ var messages = {
         },
         {
             "title": "Two Hundred Dead After Catastrophic Oxygen Leak; Citizens Want an Investigation",
-            "text": "Two Hundred Workers were killed Tuesday, when a catastrophic oxygen leak saw parts of the Industrial District without air for more than 10 minutes. Residents of {0} have called for an investigation by the {1}, who control the station.",
+            "text": "Two Hundred Workers were killed Tuesday, when a catastrophic oxygen leak saw parts of the Agricultural District without air for more than 10 minutes. Residents of {0} have called for an investigation by the {1}, who control the station.",
             "influenceChange": -8,
             "placeholders": [
                 "station",
@@ -149,6 +149,8 @@ function changePowerDynamic(scale) {
         // everything is normal
         // change controlling faction
         station.controllingFaction.influence = controllingFactionChangedInfluence;
+        document.getElementById("influence-bar-control").style.width = controllingFactionChangedInfluence + "%";
+        document.getElementById("influence-value-control").innerHTML = "Influence: " + controllingFactionChangedInfluence + "%";
         // dole out the change equally to everyone else
         var influenceLeft = 100 - controllingFactionChangedInfluence;
         var influenceBlockElements = document.getElementsByClassName("influence-block");
@@ -220,6 +222,7 @@ function eventHandler(data) {
 function addNews(item) {
     var newsItem = document.createElement("LI");
     var heading = document.createElement("H4");
+    heading.className += "news-heading";
     heading.appendChild(document.createTextNode(item.title));
     // I needed to allow for HTML entities, but still have the heading at the top of the element
     // thus this is the solution

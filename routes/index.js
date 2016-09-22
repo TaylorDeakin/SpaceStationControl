@@ -13,7 +13,6 @@ router.get('/', function(req, res, next) {
 router.get('/station/:id', function(req,res,next){
 
     var station = control.makeNewStation();
-    console.log(station);
     res.render('game', {
         title: siteTitle,
         station: station
