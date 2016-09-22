@@ -1,0 +1,5 @@
+var news = 
+
+function addNews(){
+    
+}

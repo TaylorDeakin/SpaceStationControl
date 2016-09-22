@@ -1,6 +1,9 @@
 // call once to init everything
 updateTotals();
 
+var conditionalEvents = {
+  OXYGEN_LEAK: 3,
+};
 
 // game events
 var events = [
@@ -56,6 +59,25 @@ function gameTick() {
     }
 
     updateTotals();
+
+    /* Special Events */
+
+    // OXYGEN LEAK - occurs when a player has more than 200 workers,
+    if(resources.food.workers > 200 && Math.random() > 0.8 && conditionalEvents.OXYGEN_LEAK != -1){
+        var event = messages.negative[conditionalEvents.OXYGEN_LEAK];
+        eventHandler(event);
+        // set flag to -1, so that it won't happen again
+        conditionalEvents.OXYGEN_LEAK = -1;
+        // delete that amount of workers;
+        resources.food.workers -= 150;
+        population.currentWorkers -= 150;
+    }
+
+    // EXPLORATION PARTY LOST
+    if(false){
+        //TODO: implement this
+    }
+
 
 }
 

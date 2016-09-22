@@ -29,7 +29,7 @@ Main.prototype.makeNewStation = function () {
     influenceMax -= controllingInfluence;
 
     var numFactions = this.getRandomInt(1, 5);
-    var factions = {"factions": []};
+    var factions = [];
     for (var i = 0; i < numFactions; i++) {
         var influence;
         if (i == (numFactions - 1)) {
@@ -44,10 +44,10 @@ Main.prototype.makeNewStation = function () {
             system = this.systenNames[this.getRandomInt(0, this.systenNames.length)];
         }
 
-        factions['factions'][i] = (this.makeNewFaction(system, influence));
+        factions[i] = (this.makeNewFaction(system, influence));
     }
 
-    factions['factions'].sort(function (a, b) {
+    factions.sort(function (a, b) {
         return b.influence - a.influence;
     });
 

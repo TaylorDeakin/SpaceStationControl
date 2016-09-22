@@ -7,14 +7,13 @@
                         <h2>{{name}}<br><span class="station-name">{{../name}}</span></h2>
                     <div id="controlling-faction">
                         <h3 class="heading-info">Status: </h3>
-                        <div class="influence-bar influence-bar-control"
-                             v-bind:style="{ width: inPower.influence +'%' }"><span
-                                class="influence-bar-value">Influence: \{{ inPower.influence }}%</span></div>
+                        <div id="influence-bar-control" class="influence-bar influence-bar-control"
+                             style="width: {{influence}}%"><span id="influence-value-control"
+                                                                 class="influence-bar-value">Influence: {{influence }}
+                            %</span></div>
                     {{/with}}
 
                 {{/with}}
-                <h3 class="heading-info">Balance:</h3>
-                <span class="money">\{{ inPower.balance }}</span>
             </div>
                 <p class="lead">{{status}}</p>
             </div>
@@ -122,59 +121,163 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-3">
                 <h3>Buildings</h3>
+                <h4>Housing</h4>
+                <button class="btn-block btn-click" onclick="buildings.housing.apartment.purchase()">
+                    Apartment<br>[<span id="apartment-cost">50</span> Metal](+2 Population)
+                </button>
+
+                <h4>Storage</h4>
+                <button class="btn-block btn-click" onclick="buildings.storage.hydrogen.purchase()">
+                    Hydrogen Tank <br>[<span id="hydrogen-storage-cost">100</span> Metal]<br>(+500 Hydrogen
+                    Storage)
+                </button>
+                <button class="btn-block btn-click" onclick="buildings.storage.food.purchase()">
+                    Food Storage<br>[<span id="food-storage-cost">100</span> Metal]<br>(+500 Food Storage)
+                </button>
+                <button class="btn-block btn-click" onclick="buildings.storage.metal.purchase()">
+                    Metal Storage <br>[<span id="metal-storage-cost">100</span> Metal]<br>(+500 Metal Storage)
+                </button>
+
+            </div>
+            <div class="col-sm-9">
+                <h3>Fleet</h3>
+                <h4>Ships</h4>
                 <div class="row">
-                    <div class="col-md-4">
-                        <h4>Housing</h4>
-                        <button class="btn-block btn-click" onclick="buildings.housing.apartment.purchase()">
-                            Apartment<br>[<span id="apartment-cost">50</span> Metal](+2 Population)
-                        </button>
+                    <div class="col-md-3">
+                        <section id="fleet-mining">
+                            <button onclick="fleet.methods.purchase(1)" class="btn-block btn-click">
+                                Small Ship<br> [<span class="ship-metal-cost">500</span> Metal]<br>
+                            </button>
+                            <button onclick="fleet.methods.purchase(2)" class="btn-block btn-click">
+                                Medium Ship<br> [<span class="ship-metal-cost">1500</span> Metal]<br>
+                            </button>
+                            <button onclick="fleet.methods.purchase(3)" class="btn-block btn-click">
+                                Large Ship<br> [<span class="ship-metal-cost">5000</span> Metal]<br>
+                            </button>
+                        </section>
                     </div>
-                    <div class="col-md-5">
-                        <h4>Storage</h4>
-                        <button class="btn-block btn-click" onclick="buildings.storage.hydrogen.purchase()">Hydrogen
-                            Tank <br>[<span id="hydrogen-storage-cost">100</span> Metal]<br>(+500 Hydrogen Storage)
-                        </button>
-                        <button class="btn-block btn-click" onclick="buildings.storage.food.purchase()">Food Storage
-                            <br>[<span id="food-storage-cost">100</span> Metal]<br>(+500 Food Storage)
-                        </button>
-                        <button class="btn-block btn-click" onclick="buildings.storage.metal.purchase()">Metal Storage
-                            <br>[<span id="metal-storage-cost">100</span> Metal]<br>(+500 Metal Storage)
-                        </button>
+
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h4><strong>Fleet Allocation</strong></h4>
+                                <ul class="list-unstyled list-padded">
+                                    <li>Trading</li>
+                                    <li>Exploration</li>
+                                    <li>Mining</li>
+                                    <li>Unallocated: <span id="fleet-unallocated">0</span> </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="btn-row">
+                                    <p><strong>Small</strong></p>
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-hydrogen">0</span>
+                                <button onclick="assignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#129154;</button>
+                            </span>
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-hydrogen">0</span>
+                                <button onclick="assignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#129154;</button>
+                            </span>
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-hydrogen">0</span>
+                                <button onclick="assignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#129154;</button>
+                            </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="btn-row">
+                                    <p><strong>Medium</strong></p>
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-food">0</span>
+                                <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
+                            </span>
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-food">0</span>
+                                <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
+                            </span>
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-food">0</span>
+                                <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
+                            </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="btn-row">
+                                    <p><strong>Large</strong></p>
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('metal')"
+                                        class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-metal">0</span>
+                                <button onclick="assignWorker('metal')"
+                                        class="btn-click btn-assign btn-right">&#129154;</button>
+                            </span>
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('metal')"
+                                        class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-metal">0</span>
+                                <button onclick="assignWorker('metal')"
+                                        class="btn-click btn-assign btn-right">&#129154;</button>
+                            </span>
+                            <span class="btn-group-right">
+                                <button onclick="unassignWorker('metal')"
+                                        class="btn-click btn-assign">&#129152;</button>
+                                <span class="worker-count" id="worker-count-metal">0</span>
+                                <button onclick="assignWorker('metal')"
+                                        class="btn-click btn-assign btn-right">&#129154;</button>
+                            </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <h3>Fleet</h3>
-            </div>
         </div>
-
     </div>
     <aside class="col-sm-3 col-xs-12 station-status">
         <section id="station">
             <h3>System Status</h3>
             <ul class="list-unstyled">
-                <li><strong>System: </strong>\{{ system }}</li>
-                <li><strong>Known Pirates:</strong> 3</li>
+                {{#with station}}
+                    <li><strong>System: </strong>{{system}}</li>
+                    <li><strong>Known Pirates:</strong> 3</li>
+                {{/with}}
             </ul>
         </section>
         <section id="factions">
             <h3>Rival Factions</h3>
             <ul class="list-unstyled">
-                <li v-for="faction in factions">\{{ faction.name }} | <span>\{{ faction.influence }}%</span> <br>
-                    <div class="influence-bar" v-bind:style="{ width: faction.influence +'%' }">
-                    </div>
-                </li>
+                {{#with station.factionList}}
+                    {{#each this}}
+                        <li id="influence-block-{{@index}}" class="influence-block">{{ name }} | <span
+                                class="influence-value">{{influence }}%</span> <br>
+                            <div class="influence-bar" style="width: {{influence}}%">
+                            </div>
+                        </li>
+                    {{/each}}
+                {{/with}}
+
             </ul>
         </section>
         <section id="news">
             <h3>System News</h3>
-            <ul class="list-unstyled list-news">
-
-                <li v-for="news in items"><h4 class="news-title">\{{ news.title }}</h4>
-                    <p>\{{ news.body }}</p></li>
-                <li><h4>{{#with station}}{{#with controllingFaction}}{{name}} Appoint a new Overseer
+            <ul class="list-unstyled list-news" id="news-list">
+                <li><h4 class="news-heading">{{#with station}}{{#with controllingFaction}}{{name}}
+                    Appoint a new Overseer
                     for{{/with}} {{name}}{{/with}}</h4>
                     <p>Welcome to your new job, Overseer! Your task is to maintain control of this
                         space-station,
@@ -185,34 +288,37 @@
     </aside>
 </div>
 <script>
-    var station = new Vue({
-        el: '#station',
+    var station = {
         {{#with station}}
-            data: {{{jsonString}}}
-        {{/with}}
-    });
-
-    var news = new Vue({
-        el: '#news',
-        data: {"items": []}
-    });
-
-    var factions = new Vue({
-        el: '#factions',
-        {{#with station}}
-            data: {{{factionString}}}
-        {{/with}}
-    });
-
-    var controllingFaction = new Vue({
-        el: "#controlling-faction",
-        {{#with station}}
-            {{#with controllingFaction}}
-                data: {"inPower": {{{json}}} }
+            name: "{{name}}",
+            system: "{{system}}",
+            controllingFaction: {
+                name: "{{controllingFaction.name}}",
+                influence: {{controllingFaction.influence}}
+            },
+        factions: [
+            {
+                name: "{{controllingFaction.name}}",
+                influence: {{controllingFaction.influence}},
+                inPower: true
+            },
+            {{#with factionList}}
+                {{#each this}}
+                    {
+                        name: "{{name}}",
+                        influence: {{influence}},
+                        inPower: false
+                    },
+                {{/each}}
+            ]
             {{/with}}
 
         {{/with}}
-    });
+    };
+
+    var news = [];
+
+
 </script>
 <script src="/js/jquery.min.js"></script>
 <script src="/js/utility.js"></script>
