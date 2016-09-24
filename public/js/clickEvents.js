@@ -69,112 +69,113 @@ var population = {
  * purchase function abstracted away
  */
 var buildings = {
-        purchase: function () {
-            // if we can afford the bulding
-            if (resources.metal.amount > this.metalCost) {
-                // increase the count & metal cost
-                this.count++;
-                resources.metal.amount -= this.metalCost;
-                this.metalCost += this.metalIncrease;
-                // set the text of the relevant element
-                document.getElementById(this.element).innerHTML = this.metalCost;
-                // if it's a population building add population
-                if (this.hasOwnProperty("popAdd")) population.currentPopulationCap += this.popAdd;
-                // if it's a storage building, add storage
-                if (this.hasOwnProperty("storageAdd")) {
-                    switch (this.element) {
-                        case "hydrogen-storage-cost":
-                            resources.hydrogen.maxStorage += this.storageAdd;
-                            document.getElementById("hydrogen-storage-total").innerHTML = resources.hydrogen.maxStorage;
-                            break;
-                        case "food-storage-cost":
-                            resources.food.maxStorage += this.storageAdd;
-                            document.getElementById("food-storage-total").innerHTML = resources.hydrogen.maxStorage;
-                            break;
-                        case "metal-storage-cost":
-                            resources.hydrogen.maxStorage += this.storageAdd;
-                            document.getElementById("metal-storage-total").innerHTML = resources.hydrogen.maxStorage;
-                            break;
-                    }
-                }
-            }
-        },
-        housing: {
-            apartment: {
-                metalCost: 50,
-                metalIncrease: 5,
-                popAdd: 2,
-                element: "apartment-cost",
-                count: 0,
-                purchase: function () {
-                    buildings.purchase.call(this);
-                }
-
-            }
-        },
-        factories: {},
-        storage: {
-            hydrogen: {
-                name: "Hydrogen Tank",
-                metalCost: 100,
-                metalIncrease: 10,
-                storageAdd: 500,
-                element: "hydrogen-storage-cost",
-                count: 0,
-                purchase: function () {
-                    buildings.purchase.call(this);
-
-                }
-            },
-            metal: {
-                name: "Metal Stockpile",
-                metalCost: 100,
-                metalIncrease: 10,
-                storageAdd: 500,
-                element: "metal-storage-cost",
-                count: 0,
-                purchase: function () {
-                    buildings.purchase.call(this);
-                }
-            }
-            ,
-            food: {
-                name: "Food Stockpile",
-                metalCost: 100,
-                metalIncrease: 10,
-                storageAdd: 500,
-                element: "food-storage-cost",
-                count: 0,
-                purchase: function () {
-                    buildings.purchase.call(this);
-                }
-            }
-            ,
-            shipyard: {
-                docks: {
-                    small: {
-                        current: 0,
-                        max: 3
-                    }
-                    ,
-                    medium: {
-                        current: 0,
-                        max: 3
-                    }
-                    ,
-                    large: {
-                        current: 0,
-                        max: 3
-                    }
-                }
-                ,
-                facilites: {
-                    repair: {}
+    purchase: function () {
+        // if we can afford the bulding
+        if (resources.metal.amount > this.metalCost) {
+            // increase the count & metal cost
+            this.count++;
+            resources.metal.amount -= this.metalCost;
+            this.metalCost += this.metalIncrease;
+            // set the text of the relevant element
+            document.getElementById(this.element).innerHTML = this.metalCost;
+            // if it's a population building add population
+            if (this.hasOwnProperty("popAdd")) population.currentPopulationCap += this.popAdd;
+            // if it's a storage building, add storage
+            if (this.hasOwnProperty("storageAdd")) {
+                switch (this.element) {
+                    case "hydrogen-storage-cost":
+                        resources.hydrogen.maxStorage += this.storageAdd;
+                        document.getElementById("hydrogen-storage-total").innerHTML = resources.hydrogen.maxStorage;
+                        break;
+                    case "food-storage-cost":
+                        resources.food.maxStorage += this.storageAdd;
+                        document.getElementById("food-storage-total").innerHTML = resources.hydrogen.maxStorage;
+                        break;
+                    case "metal-storage-cost":
+                        resources.hydrogen.maxStorage += this.storageAdd;
+                        document.getElementById("metal-storage-total").innerHTML = resources.hydrogen.maxStorage;
+                        break;
                 }
             }
         }
+    },
+    housing: {
+        apartment: {
+            metalCost: 50,
+            metalIncrease: 5,
+            popAdd: 2,
+            element: "apartment-cost",
+            count: 0,
+            purchase: function () {
+                buildings.purchase.call(this);
+            }
+
+        }
+    },
+    factories: {},
+    storage: {
+        hydrogen: {
+            name: "Hydrogen Tank",
+            metalCost: 100,
+            metalIncrease: 10,
+            storageAdd: 500,
+            element: "hydrogen-storage-cost",
+            count: 0,
+            purchase: function () {
+                buildings.purchase.call(this);
+
+            }
+        },
+        metal: {
+            name: "Metal Stockpile",
+            metalCost: 100,
+            metalIncrease: 10,
+            storageAdd: 500,
+            element: "metal-storage-cost",
+            count: 0,
+            purchase: function () {
+                buildings.purchase.call(this);
+            }
+        }
+        ,
+        food: {
+            name: "Food Stockpile",
+            metalCost: 100,
+            metalIncrease: 10,
+            storageAdd: 500,
+            element: "food-storage-cost",
+            count: 0,
+            purchase: function () {
+                buildings.purchase.call(this);
+            }
+        }
+    },
+    shipyard: {
+        docks: {
+            small: {
+                current: 0,
+                unassigned: 0,
+                max: 3
+            }
+            ,
+            medium: {
+                current: 0,
+                unassigned: 0,
+                max: 3
+            }
+            ,
+            large: {
+                current: 0,
+                unassigned: 0,
+                max: 3
+            }
+        }
+        ,
+        facilites: {
+            repair: {}
+        }
     }
-    ;
+};
 /*
  * Fleet object - keeps track of the ships in the fleet
  */
@@ -186,27 +187,96 @@ var fleet = {
         purchase: function (size) {
             switch (size) {
                 case 1:
-                    if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.small.current != buildings.shipyard.docks.small.max) {
-                        resources.metal.amount -= this.metalCost;
-                        buildings.shipyard.small.current++;
+                    if (resources.metal.amount > 500 && buildings.shipyard.docks.small.current != buildings.shipyard.docks.small.max) {
+                        resources.metal.amount -= 500;
+                        buildings.shipyard.docks.small.current++;
+                        buildings.shipyard.docks.small.unassigned++;
                     }
 
                     break;
                 case 2:
-                    if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.medium.current != buildings.shipyard.docks.medium.max) {
-                        resources.metal.amount -= this.metalCost;
-                        buildings.shipyard.medium.current++;
+                    if (resources.metal.amount > 1500 && buildings.shipyard.docks.medium.current != buildings.shipyard.docks.medium.max) {
+                        resources.metal.amount -= 1500;
+                        buildings.shipyard.docks.medium.current++;
+                        buildings.shipyard.docks.medium.unassigned++;
                     }
                     break;
 
                 case 3:
-                    if (resources.metal.amount > this.metalCost && buildings.shipyard.docks.large.current != buildings.shipyard.docks.large.max) {
-                        resources.metal.amount -= this.metalCost;
-                        buildings.shipyard.large.current++;
+                    if (resources.metal.amount > 5000 && buildings.shipyard.docks.large.current != buildings.shipyard.docks.large.max) {
+                        resources.metal.amount -= 5000;
+                        buildings.shipyard.large.docks.current++;
+                        buildings.shipyard.large.docks.unassigned++;
                     }
                     break;
             }
 
+        },
+        assignShip: function (size, task) {
+            var shipNum;
+
+            switch (size) {
+                case "small":
+                    shipNum = 1;
+                    break;
+                case "medium":
+                    shipNum = 2;
+                    break;
+                case "large":
+                    shipNum = 3;
+            }
+
+            console.log(buildings.shipyard.docks[size]);
+            if (buildings.shipyard.docks[size].unassigned > 0) {
+                switch (task) {
+                    case "trading":
+                        fleet.traders["trader" + shipNum].count++;
+                        buildings.shipyard.docks[size].unassigned--;
+                        break;
+                    case "exploring":
+                        fleet.explorers["explorer" + shipNum].count++;
+                        buildings.shipyard.docks[size].unassigned--;
+                        break;
+                    case "mining":
+                        fleet.miners["miner" + shipNum].count++;
+                        buildings.shipyard.docks[size].unassigned--;
+                        break;
+
+                }
+            }
+        },
+        unassignShip: function (size, task) {
+            var shipNum;
+
+            switch (size) {
+                case "small":
+                    shipNum = 1;
+                    break;
+                case "medium":
+                    shipNum = 2;
+                    break;
+                case "large":
+                    shipNum = 3;
+            }
+
+            console.log(buildings.shipyard.docks[size]);
+            if (buildings.shipyard.docks[size].unassigned > 0) {
+                switch (task) {
+                    case "trading":
+                        fleet.traders["trader" + shipNum].count--;
+                        buildings.shipyard.docks[size].unassigned++;
+                        break;
+                    case "exploring":
+                        fleet.explorers["explorer" + shipNum].count--;
+                        buildings.shipyard.docks[size].unassigned++;
+                        break;
+                    case "mining":
+                        fleet.miners["miner" + shipNum].count--;
+                        buildings.shipyard.docks[size].unassigned++;
+                        break;
+
+                }
+            }
         }
     },
     miners: {
@@ -246,72 +316,73 @@ var fleet = {
             count: 0,
 
         },
-        traders: {
-            trader1: {
-                tradeProfit: function () {
-                    return getRandomInt(500, 1000)
-                },
-                metalCost: 500,
-                hydrogenUsage: function () {
-                    this.methods.hydrogenUsage().call(this, 10);
-                },
-                count: 0
+    },
+    traders: {
+        trader1: {
+            tradeProfit: function () {
+                return getRandomInt(500, 1000)
             },
-            trader2: {
-                tradeProfit: function () {
-                    return getRandomInt(1500, 5000)
-                },
-                metalCost: 1500,
-                hydrogenUsage: function () {
-                    this.methods.hydrogenUsage().call(this, 20);
-                },
-                count: 0
+            metalCost: 500,
+            hydrogenUsage: function () {
+                this.methods.hydrogenUsage().call(this, 10);
             },
-            trader3: {
-                tradeProfit: function () {
-                    return getRandomInt(5000, 50000)
-                },
-                metalCost: 5000,
-                hydrogenUsage: function () {
-                    this.methods.hydrogenUsage().call(this, 50);
-                },
-                count: 0
-            }
+            count: 0
         },
-        explorers: {
-            explorer1: {
-                explore: function () {
-                    return 0; //TODO: implement exploration feature
-                },
-                metalCost: 500,
-                hydrogenUsage(){
-                    this.methods.hydrogenUsage().call(this, 35);
-                },
-                count: 0
+        trader2: {
+            tradeProfit: function () {
+                return getRandomInt(1500, 5000)
             },
-            explorer2: {
-                explore: function () {
-                    return 0; //TODO: implement exploration feature
-                },
-                metalCost: 500,
-                hydrogenUsage(){
-                    this.methods.hydrogenUsage().call(this, 55);
-                },
-                count: 0
+            metalCost: 1500,
+            hydrogenUsage: function () {
+                this.methods.hydrogenUsage().call(this, 20);
             },
-            explorer3: {
-                explore: function () {
-                    return 0; //TODO: implement exploration feature
-                },
-                metalCost: 500,
-                hydrogenUsage(){
-                    this.methods.hydrogenUsage().call(this, 75);
-                },
-                count: 0
-            }
+            count: 0
+        },
+        trader3: {
+            tradeProfit: function () {
+                return getRandomInt(5000, 50000)
+            },
+            metalCost: 5000,
+            hydrogenUsage: function () {
+                this.methods.hydrogenUsage().call(this, 50);
+            },
+            count: 0
         }
-
+    },
+    explorers: {
+        explorer1: {
+            explore: function () {
+                return 0; //TODO: implement exploration feature
+            },
+            metalCost: 500,
+            hydrogenUsage(){
+                this.methods.hydrogenUsage().call(this, 35);
+            },
+            count: 0
+        },
+        explorer2: {
+            explore: function () {
+                return 0; //TODO: implement exploration feature
+            },
+            metalCost: 500,
+            hydrogenUsage(){
+                this.methods.hydrogenUsage().call(this, 55);
+            },
+            count: 0
+        },
+        explorer3: {
+            explore: function () {
+                return 0; //TODO: implement exploration feature
+            },
+            metalCost: 500,
+            hydrogenUsage(){
+                this.methods.hydrogenUsage().call(this, 75);
+            },
+            count: 0
+        }
     }
+
+
 };
 /**
  * adds the specified resource to the counter
