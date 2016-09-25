@@ -1,6 +1,12 @@
 // the number of clicks on the screen
 var clickCount = 0;
 
+// need a better solution than declaring everything in global scope
+// but I don't really want to be constantly traversing the DOM
+var shipsMining = document.getElementsByClassName("ship-mining");
+var shipsExploring = document.getElementsByClassName("ship-exploring");
+var shipsTrading = document.getElementsByClassName("ship-trading");
+var unallocatedShips = document.getElementsByClassName("ship-unallocated");
 /*
  * resources object - keeps track of all the resources
  */
@@ -38,6 +44,7 @@ var resources = {
         gatherRate: function () {
             return this.workers / 2;
         },
+        shipGatherRate: 0,
         workers: 5,
         maxStorage: 2000
 
@@ -89,11 +96,11 @@ var buildings = {
                         break;
                     case "food-storage-cost":
                         resources.food.maxStorage += this.storageAdd;
-                        document.getElementById("food-storage-total").innerHTML = resources.hydrogen.maxStorage;
+                        document.getElementById("food-storage-total").innerHTML = resources.food.maxStorage;
                         break;
                     case "metal-storage-cost":
-                        resources.hydrogen.maxStorage += this.storageAdd;
-                        document.getElementById("metal-storage-total").innerHTML = resources.hydrogen.maxStorage;
+                        resources.metal.maxStorage += this.storageAdd;
+                        document.getElementById("metal-storage-total").innerHTML = resources.metal.maxStorage;
                         break;
                 }
             }
@@ -181,6 +188,9 @@ var buildings = {
  */
 var fleet = {
     methods: {
+        tickEvent: function () {
+            resources.metal.amount += (fleet.miners.miner1.miningRateCalc() + fleet.miners.miner2.miningRateCalc() + fleet.miners.miner3.miningRateCalc());
+        },
         hydrogenUsage: function (rate) {
             return this.count * rate;
         },
@@ -205,8 +215,8 @@ var fleet = {
                 case 3:
                     if (resources.metal.amount > 5000 && buildings.shipyard.docks.large.current != buildings.shipyard.docks.large.max) {
                         resources.metal.amount -= 5000;
-                        buildings.shipyard.large.docks.current++;
-                        buildings.shipyard.large.docks.unassigned++;
+                        buildings.shipyard.docks.large.current++;
+                        buildings.shipyard.docks.large.unassigned++;
                     }
                     break;
             }
@@ -239,6 +249,7 @@ var fleet = {
                         break;
                     case "mining":
                         fleet.miners["miner" + shipNum].count++;
+                        resources.metal.shipGatherRate += fleet.miners["miner" + shipNum].miningRateAmount;
                         buildings.shipyard.docks[size].unassigned--;
                         break;
 
@@ -281,9 +292,10 @@ var fleet = {
     },
     miners: {
         miner1: {
-            miningRate: function () {
+            miningRateCalc: function () {
                 return this.count * 25;
             },
+            miningRateAmount: 25,
             metalCost: 500,
             hydrogenUsage: function () {
                 this.methods.hydrogenUsage().call(this, 5);
@@ -293,9 +305,10 @@ var fleet = {
 
         },
         miner2: {
-            miningRate: function () {
+            miningRateCalc: function () {
                 return this.count * 50;
             },
+            miningRateAmount: 50,
             metalCost: 1500,
             hydrogenUsage: function () {
                 this.methods.hydrogenUsage().call(this, 15);
@@ -305,9 +318,10 @@ var fleet = {
 
         },
         miner3: {
-            miningRate: function () {
+            miningRateCalc: function () {
                 return this.count * 100;
             },
+            miningRateAmount: 100,
             metalCost: 5000,
             delay: 10,
             hydrogenUsage: function () {
@@ -408,6 +422,29 @@ function addResource(name) {
     updateTotals();
 
 }
+
+function updateFleetTotals() {
+
+    // mining ships
+    shipsMining[0].innerHTML = fleet.miners.miner1.count;
+    shipsMining[1].innerHTML = fleet.miners.miner2.count;
+    shipsMining[2].innerHTML = fleet.miners.miner3.count;
+    // explorers
+    shipsExploring[0].innerHTML = fleet.explorers.explorer1.count;
+    shipsExploring[1].innerHTML = fleet.explorers.explorer2.count;
+    shipsExploring[2].innerHTML = fleet.explorers.explorer3.count;
+    // trading ships
+    shipsTrading[0].innerHTML = fleet.traders.trader1.count;
+    shipsTrading[1].innerHTML = fleet.traders.trader2.count;
+    shipsTrading[2].innerHTML = fleet.traders.trader3.count;
+    // unallocated ships
+    unallocatedShips[0].innerHTML = buildings.shipyard.docks.small.unassigned;
+    unallocatedShips[1].innerHTML = buildings.shipyard.docks.medium.unassigned;
+    unallocatedShips[2].innerHTML = buildings.shipyard.docks.large.unassigned;
+
+
+}
+
 /**
  * UpdateTotals: will update all the totals presented to the user
  */
@@ -422,7 +459,13 @@ function updateTotals() {
 
             var obj = resources[key];
             totals.item(i).innerHTML = prettyPrint(obj.name, obj.amount);
-            gatherRates.item(i).innerHTML = obj.gatherRate();
+            if(!obj.hasOwnProperty("shipGatherRate")){
+                gatherRates.item(i).innerHTML = obj.gatherRate();
+            } else {
+                gatherRates.item(i).innerHTML = obj.gatherRate() + obj.shipGatherRate;
+            }
+
+
             workers.item(i).innerHTML = obj.workers;
             i++;
         }
@@ -432,6 +475,9 @@ function updateTotals() {
     document.getElementById("unemployed-count").innerHTML = population.currentUnemployed;
     document.getElementById("food-cost").innerHTML = population.currentFoodCost();
     document.getElementById("max-population").innerHTML = population.currentPopulationCap;
+
+    // update fleet totals
+    updateFleetTotals();
 }
 /**
  * pretty printing for resources

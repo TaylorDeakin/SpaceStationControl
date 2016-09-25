@@ -58,6 +58,9 @@ function gameTick() {
         }
     }
 
+    fleet.methods.tickEvent();
+
+    
     updateTotals();
 
     /* Special Events */
