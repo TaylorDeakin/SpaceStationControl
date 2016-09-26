@@ -1,0 +1,27 @@
+<div id="mocha"></div>
+
+<!-- hack to get MochaCSS in this document, because handlebars was being stupid -->
+<script type="text/javascript">
+    var file = "vendor/mocha.css";
+
+    var link = document.createElement( "link" );
+    link.href = file.substr( 0, file.lastIndexOf( "." ) ) + ".css";
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.media = "screen,print";
+
+    document.getElementsByTagName( "head" )[0].appendChild( link );
+</script>
+
+<script src="vendor/mocha.js"></script>
+<script src="/js/utility.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/clickEvents.js"></script>
+<!--<script src="/js/game-loop.js"></script>-->
+<script>mocha.setup('qunit')</script>
+<script src="js/tests.js"></script>
+<script>mocha.run();</script>
+
+<div id="messages"></div>
+<div id="fixtures"></div>
+

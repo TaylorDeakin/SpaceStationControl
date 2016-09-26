@@ -86,35 +86,39 @@
                             Hire Worker [20 Food]
                         </button>
                     </div>
-                    <div class="col-sm-5">
+                    <div class="col-sm-3">
+                        <ul class="list-unstyled list-padded">
+                            <li>Hydrogen Miners:</li>
+                            <li>Farmers:</li>
+                            <li>Asteroid Miners:</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-2">
                         <div class="btn-row">
-                            Hydrogen Miners:
-                            <span class="btn-group-right">
+                            <div class="fullwidth-block pull-right">
                                 <button onclick="unassignWorker('hydrogen')"
                                         class="btn-click btn-assign">&#129152;</button>
                                 <span class="worker-count" id="worker-count-hydrogen">0</span>
                                 <button onclick="assignWorker('hydrogen')"
                                         class="btn-click btn-assign">&#129154;</button>
-                            </span>
+                            </div>
 
                         </div>
                         <div class="btn-row">
-                            Farmers:
-                            <span class="btn-group-right">
+                            <div class="fullwidth-block pull-right">
                                 <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
                                 <span class="worker-count" id="worker-count-food">0</span>
                                 <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
-                            </span>
+                            </div>
                         </div>
                         <div class="btn-row">
-                            Asteroid Miners:
-                            <span class="btn-group-right">
+                            <div class="fullwidth-block pull-right">
                                 <button onclick="unassignWorker('metal')"
                                         class="btn-click btn-assign">&#129152;</button>
                                 <span class="worker-count" id="worker-count-metal">0</span>
                                 <button onclick="assignWorker('metal')"
                                         class="btn-click btn-assign btn-right">&#129154;</button>
-                            </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -167,79 +171,88 @@
                                     <li>Trading</li>
                                     <li>Exploration</li>
                                     <li>Mining</li>
-                                    <li>Unallocated: <span id="fleet-unallocated">0</span> </li>
+                                    <li>Unallocated:</li>
                                 </ul>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-xs-4">
                                 <div class="btn-row">
-                                    <p><strong>Small</strong></p>
-                            <span class="btn-group-right">
-                                <button onclick="unassignWorker('hydrogen')"
-                                        class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-hydrogen">0</span>
-                                <button onclick="assignWorker('hydrogen')"
-                                        class="btn-click btn-assign">&#129154;</button>
-                            </span>
-                            <span class="btn-group-right">
-                                <button onclick="unassignWorker('hydrogen')"
-                                        class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-hydrogen">0</span>
-                                <button onclick="assignWorker('hydrogen')"
-                                        class="btn-click btn-assign">&#129154;</button>
-                            </span>
-                            <span class="btn-group-right">
-                                <button onclick="unassignWorker('hydrogen')"
-                                        class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-hydrogen">0</span>
-                                <button onclick="assignWorker('hydrogen')"
-                                        class="btn-click btn-assign">&#129154;</button>
-                            </span>
+                                    <p class="text-center"><strong>Small</strong></p>
+                                    <div class="fullwidth-block pull-right">
+                                        <button onclick="fleet.methods.unassignShip('small','trading')"
+                                                class="btn-click btn-assign">&#129152;</button>
+                                        <span class="worker-count ship-trading" id="ship-trading-small">0</span>
+                                        <button onclick="fleet.methods.assignShip('small','trading')"
+                                                class="btn-click btn-assign">&#129154;</button>
+                                    </div>
+                                    <div class="fullwidth-block pull-right">
+                                        <button onclick="fleet.methods.unassignShip('small','exploring')"
+                                                class="btn-click btn-assign">&#129152;</button>
+                                        <span class="worker-count ship-exploring" id="ship-exploring-small">0</span>
+                                        <button onclick="fleet.methods.assignShip('small','exploring')"
+                                                class="btn-click btn-assign">&#129154;</button>
+                                    </div>
+                                    <div class="fullwidth-block pull-right">
+                                        <button onclick="fleet.methods.unassignShip('small','mining')"
+                                                class="btn-click btn-assign">&#129152;</button>
+                                        <span class="worker-count ship-mining" id="ship-mining-small">0</span>
+                                        <button onclick="fleet.methods.assignShip('small','mining')"
+                                                class="btn-click btn-assign">&#129154;</button>
+                                    </div>
+                                    <p class="clearfix text-center ship-unallocated" id="">0</p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-xs-4">
                                 <div class="btn-row">
-                                    <p><strong>Medium</strong></p>
-                            <span class="btn-group-right">
-                                <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-food">0</span>
-                                <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
-                            </span>
-                            <span class="btn-group-right">
-                                <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-food">0</span>
-                                <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
-                            </span>
-                            <span class="btn-group-right">
-                                <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-food">0</span>
-                                <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
-                            </span>
+                                    <p class="text-center"><strong>Medium</strong></p>
+                                    <div class="fullwidth-block pull-right">
+                                        <button onclick="fleet.methods.unassignShip('medium','trading')"
+                                                class="btn-click btn-assign">&#129152;</button>
+                                        <span class="worker-count ship-trading" id="ship-trading-medium">0</span>
+                                        <button onclick="fleet.methods.assignShip('medium','trading')"
+                                                class="btn-click btn-assign">&#129154;</button>
+                                    </div>
+                                    <div class="fullwidth-block pull-right">
+                                        <button onclick="fleet.methods.unassignShip('medium','exploring')"
+                                                class="btn-click btn-assign">&#129152;</button>
+                                        <span class="worker-count ship-exploring" id="ship-exploring-medium">0</span>
+                                        <button onclick="fleet.methods.assignShip('medium','exploring')"
+                                                class="btn-click btn-assign">&#129154;</button>
+                                    </div>
+                                    <div class="fullwidth-block pull-right">
+                                        <button onclick="fleet.methods.unassignShip('medium','mining')"
+                                                class="btn-click btn-assign">&#129152;</button>
+                                        <span class="worker-count ship-mining" id="ship-mining-medium">0</span>
+                                        <button onclick="fleet.methods.assignShip('medium','mining')"
+                                                class="btn-click btn-assign">&#129154;</button>
+                                    </div>
+                                    <p class="clearfix text-center ship-unallocated" id="">0</p>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-xs-4">
                                 <div class="btn-row">
-                                    <p><strong>Large</strong></p>
-                            <span class="btn-group-right">
-                                <button onclick="unassignWorker('metal')"
-                                        class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-metal">0</span>
-                                <button onclick="assignWorker('metal')"
-                                        class="btn-click btn-assign btn-right">&#129154;</button>
-                            </span>
-                            <span class="btn-group-right">
-                                <button onclick="unassignWorker('metal')"
-                                        class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-metal">0</span>
-                                <button onclick="assignWorker('metal')"
-                                        class="btn-click btn-assign btn-right">&#129154;</button>
-                            </span>
-                            <span class="btn-group-right">
-                                <button onclick="unassignWorker('metal')"
-                                        class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-metal">0</span>
-                                <button onclick="assignWorker('metal')"
-                                        class="btn-click btn-assign btn-right">&#129154;</button>
-                            </span>
+                                    <p class="text-center"><strong>Large</strong></p>
+                                    <div class="fullwidth-block pull-right">
+                                        <button onclick="fleet.methods.unassignShip('large','trading')"
+                                                class="btn-click btn-assign">&#129152;</button>
+                                        <span class="worker-count ship-trading" id="ship-trading-large">0</span>
+                                        <button onclick="fleet.methods.assignShip('large','trading')"
+                                                class="btn-click btn-assign">&#129154;</button>
+                                    </div>
+                                    <div class="fullwidth-block pull-right">
+                                        <button onclick="fleet.methods.unassignShip('large','exploring')"
+                                                class="btn-click btn-assign">&#129152;</button>
+                                        <span class="worker-count ship-exploring" id="ship-exploring-large">0</span>
+                                        <button onclick="fleet.methods.assignShip('large','exploring')"
+                                                class="btn-click btn-assign">&#129154;</button>
+                                    </div>
+                                    <div class="fullwidth-block pull-right">
+                                        <button onclick="fleet.methods.unassignShip('large','mining')"
+                                                class="btn-click btn-assign">&#129152;</button>
+                                        <span class="worker-count ship-mining" id="ship-mining-large">0</span>
+                                        <button onclick="fleet.methods.assignShip('large','mining')"
+                                                class="btn-click btn-assign">&#129154;</button>
+                                    </div>
+                                    <p class="clearfix text-center ship-unallocated" id="">0</p>
                                 </div>
                             </div>
                         </div>

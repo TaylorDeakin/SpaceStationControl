@@ -14,7 +14,9 @@ body{
   padding: 5px;
 }
 .worker-count{
-  width: 40px;
+
+  width: calc(100% - 83px);
+
   display: inline-block;
   text-align: center;
 }
@@ -23,6 +25,6 @@ body{
 .btn-row{
   padding: 5px 0;
 }
-.btn-group-right{
-  float: right;
+.fullwidth-block{
+  width: 100%;
 }
