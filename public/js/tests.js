@@ -9,6 +9,16 @@ test('Purchase Small Ship', function () {
 
     ok(buildings.shipyard.docks.small.current == 1, "There should be one ship after purchasing");
     ok(resources.metal.amount == 0, "500 metal should have been deducted");
+
+    resources.metal.amount = 2500;
+
+    fleet.methods.purchase(1);
+    fleet.methods.purchase(1);
+    // only three of these should actually work
+    fleet.methods.purchase(1);
+
+    ok(buildings.shipyard.docks.small.current == 3, "There should be a limit of three ships");
+    ok(resources.metal.amount == 1500, "Only two ships should have been charged for");
 });
 
 test('Purchase Medium Ship', function () {
@@ -17,6 +27,16 @@ test('Purchase Medium Ship', function () {
 
     ok(buildings.shipyard.docks.medium.current == 1, "There should be one medium ship after purchasing");
     ok(resources.metal.amount == 0, "1500 metal should have been deducted");
+
+    resources.metal.amount = 6000;
+
+    fleet.methods.purchase(2);
+    fleet.methods.purchase(2);
+    // only three of these should actually work
+    fleet.methods.purchase(2);
+
+    ok(buildings.shipyard.docks.medium.current == 3, "There should be a limit of three ships");
+    ok(resources.metal.amount == 3000, "Only two ships should have been charged for");
 });
 
 test('Purchase Large Ship', function () {
@@ -25,8 +45,18 @@ test('Purchase Large Ship', function () {
 
     ok(buildings.shipyard.docks.large.current == 1, "There should be one medium ship after purchasing");
     ok(resources.metal.amount == 0, "5000 metal should have been deducted");
-});
 
+    resources.metal.amount = 50000;
+
+    fleet.methods.purchase(3);
+    fleet.methods.purchase(3);
+    // only three of these should actually work
+    fleet.methods.purchase(3);
+
+    ok(buildings.shipyard.docks.large.current == 3, "There should be a limit of three ships");
+    ok(resources.metal.amount == 40000, "Only two ships should have been charged for");
+
+});
 
 suite('Resource Storage');
 test('Hydrogen Storage', function () {
