@@ -1,4 +1,3 @@
-<div id="mocha"></div>
 
 <!-- hack to get MochaCSS in this document, because handlebars was being stupid -->
 <script type="text/javascript">
@@ -8,11 +7,13 @@
     link.href = file.substr( 0, file.lastIndexOf( "." ) ) + ".css";
     link.type = "text/css";
     link.rel = "stylesheet";
-    link.media = "screen,print";
 
     document.getElementsByTagName( "head" )[0].appendChild( link );
 </script>
-
+<h1>Space Station Control Tests</h1>
+<small>If you've found this page, you're looking at tests to make sure that code written late at night
+actually works like it should</small>
+<div id="mocha"></div>
 <script src="vendor/mocha.js"></script>
 <script src="/js/utility.js"></script>
 <script src="/js/events.js"></script>
@@ -24,4 +25,14 @@
 
 <div id="messages"></div>
 <div id="fixtures"></div>
-
+<!-- another hack - some of the methods update text, and will fail if there is nowhere to update
+    said text. Solution, add a bunch of empty divs-->
+<div id="html-elements" style="display: none;">
+    <div id="hydrogen-storage-cost"></div>
+    <div id="metal-storage-cost"></div>
+    <div id="food-storage-cost"></div>
+    <div id="hydrogen-storage-total"></div>
+    <div id="food-storage-total"></div>
+    <div id="metal-storage-total"></div>
+    <div id="apartment-cost"></div>
+</div>

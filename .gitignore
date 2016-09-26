@@ -100,3 +100,5 @@ jspm_packages
 .node_repl_history
 
 build/vendor/bootstrap-sass-3.3.7
+
+stationControl.env
