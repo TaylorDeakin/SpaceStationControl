@@ -6,11 +6,17 @@ var Station = require("../scripts/Station");
 var control = new GameControl();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: siteTitle });
+router.get('/', function (req, res, next) {
+    res.render('index', {title: siteTitle});
+});
+/* GET Testing Page */
+router.get('/tests', function (req, res, next) {
+    var station = control.makeNewStation();
+
+    res.render('tests', {title: "Space Station Control Tests", station: station})
 });
 
-router.get('/station/:id', function(req,res,next){
+router.get('/station/:id', function (req, res, next) {
 
     var station = control.makeNewStation();
     res.render('game', {
@@ -19,7 +25,6 @@ router.get('/station/:id', function(req,res,next){
 
     })
 });
-
 
 
 module.exports = router;

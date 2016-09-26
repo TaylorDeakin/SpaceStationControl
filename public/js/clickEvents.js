@@ -78,7 +78,7 @@ var population = {
 var buildings = {
     purchase: function () {
         // if we can afford the bulding
-        if (resources.metal.amount > this.metalCost) {
+        if (resources.metal.amount >= this.metalCost) {
             // increase the count & metal cost
             this.count++;
             resources.metal.amount -= this.metalCost;
@@ -197,7 +197,7 @@ var fleet = {
         purchase: function (size) {
             switch (size) {
                 case 1:
-                    if (resources.metal.amount > 500 && buildings.shipyard.docks.small.current != buildings.shipyard.docks.small.max) {
+                    if (resources.metal.amount >= 500 && buildings.shipyard.docks.small.current != buildings.shipyard.docks.small.max) {
                         resources.metal.amount -= 500;
                         buildings.shipyard.docks.small.current++;
                         buildings.shipyard.docks.small.unassigned++;
@@ -205,7 +205,7 @@ var fleet = {
 
                     break;
                 case 2:
-                    if (resources.metal.amount > 1500 && buildings.shipyard.docks.medium.current != buildings.shipyard.docks.medium.max) {
+                    if (resources.metal.amount >= 1500 && buildings.shipyard.docks.medium.current != buildings.shipyard.docks.medium.max) {
                         resources.metal.amount -= 1500;
                         buildings.shipyard.docks.medium.current++;
                         buildings.shipyard.docks.medium.unassigned++;
@@ -213,7 +213,7 @@ var fleet = {
                     break;
 
                 case 3:
-                    if (resources.metal.amount > 5000 && buildings.shipyard.docks.large.current != buildings.shipyard.docks.large.max) {
+                    if (resources.metal.amount >= 5000 && buildings.shipyard.docks.large.current != buildings.shipyard.docks.large.max) {
                         resources.metal.amount -= 5000;
                         buildings.shipyard.docks.large.current++;
                         buildings.shipyard.docks.large.unassigned++;
