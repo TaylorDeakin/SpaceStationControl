@@ -28,7 +28,7 @@
                             Collect
                             Hydrogen
                         </button>
-                        <button id="resource-food" onclick="addResource('food')" class="btn-block btn-click">Grow Food
+                        <button id="resource-food" onclick="addResource('food')" class="btn-block btn-click cbutton--effect-jelena">Grow Food
                         </button>
                         <button id="resource-metal" onclick="addResource('metal')" class="btn-block btn-click">Mine
                             Metal
@@ -146,12 +146,12 @@
                     </div>
                     <div class="col-sm-3">
                         <h4>Shipyard</h4>
-                        <button class="btn-block btn-click">Small Hangar <br> [<span id="small-hangar-cost">250</span>
+                        <button class="btn-block btn-click" onclick="buildings.shipyard.docks.small.purchase()">Small Hangar <br> [<span id="small-hangar-cost">250</span>
                             Metal]<br>(+1 Small Ship Capacity)
                         </button>
-                        <button class="btn-block btn-click">Medium Hangar <br> [<span id="small-hangar-cost">750</span>
+                        <button class="btn-block btn-click" onclick="buildings.shipyard.docks.medium.purchase()">Medium Hangar <br> [<span id="medium-hangar-cost">750</span>
                             Metal]<br>(+1 Medium Ship Capacity)</button>
-                        <button class="btn-block btn-click">Large Hangar <br> [<span id="small-hangar-cost">2500</span>
+                        <button class="btn-block btn-click" onclick="buildings.shipyard.docks.small.purchase()">Large Hangar <br> [<span id="large-hangar-cost">2500</span>
                             Metal]<br>(+1 Large Ship Capacity)</button>
                     </div>
                 </div>

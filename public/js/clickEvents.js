@@ -104,6 +104,7 @@ var buildings = {
                         break;
                 }
             }
+            if (this.hasOwnProperty("hangerAdd")) this.max += this.hangarAdd;
         }
     },
     housing: {
@@ -143,8 +144,7 @@ var buildings = {
             purchase: function () {
                 buildings.purchase.call(this);
             }
-        }
-        ,
+        },
         food: {
             name: "Food Stockpile",
             metalCost: 100,
@@ -160,24 +160,42 @@ var buildings = {
     shipyard: {
         docks: {
             small: {
+                element: "small-hangar-cost",
+                metalIncrease: 50,
+                metalCost: 250,
                 current: 0,
                 unassigned: 0,
-                max: 3
-            }
-            ,
+                max: 3,
+                hangarAdd: 1,
+                purchase: function () {
+                    buildings.purchase.call(this)
+                }
+            },
             medium: {
+                element: "medium-hangar-cost",
+                metalIncrease: 250,
+                metalCost: 750,
                 current: 0,
                 unassigned: 0,
-                max: 3
-            }
-            ,
+                max: 3,
+                hangarAdd: 1,
+                purchase: function () {
+                    buildings.purchase.call(this)
+                }
+            },
             large: {
+                metalIncrease: 1250,
+                metalCost: 2500,
+                element: "large-hangar-cost",
                 current: 0,
                 unassigned: 0,
-                max: 3
+                max: 3,
+                hangarAdd: 1,
+                purchase: function () {
+                    buildings.purchase.call(this)
+                }
             }
-        }
-        ,
+        },
         facilites: {
             repair: {}
         }
@@ -459,7 +477,7 @@ function updateTotals() {
 
             var obj = resources[key];
             totals.item(i).innerHTML = prettyPrint(obj.name, obj.amount);
-            if(!obj.hasOwnProperty("shipGatherRate")){
+            if (!obj.hasOwnProperty("shipGatherRate")) {
                 gatherRates.item(i).innerHTML = obj.gatherRate();
             } else {
                 gatherRates.item(i).innerHTML = obj.gatherRate() + obj.shipGatherRate;
