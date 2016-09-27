@@ -2,7 +2,13 @@
   background: none;
   border: 3px solid $color-theme-dark;
   border-radius: 0;
+
+  &:hover, &:focus{
+    background: #ddd;
+  }
 }
+
+
 
 /*
  * Resources

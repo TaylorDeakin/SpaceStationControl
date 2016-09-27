@@ -23,7 +23,7 @@
             <div class="col-sm-12">
                 <h3>Basic Resources</h3>
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-lg-2 col-md-3 col-xs-4">
                         <button id="resource-hydrogen" onclick="addResource('hydrogen')" class="btn-block btn-click">
                             Collect
                             Hydrogen
@@ -34,31 +34,66 @@
                             Metal
                         </button>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-lg-2 col-md-3 col-xs-4">
                         <ul class="list-unstyled list-padded">
                             <li class="resource-output">Hydrogen: <span class="resource-amount">0</span></li>
                             <li class="resource-output">Food: <span class="resource-amount">0</span></li>
                             <li class="resource-output">metal: <span class="resource-amount">0</span></li>
                         </ul>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-lg-2 col-md-4 col-xs-4">
                         <ul class="list-unstyled list-padded">
-                            <li class="resource-storage">Max Storage: <span id="hydrogen-storage-total"
-                                                                            class="resource-amount">2000</span></li>
-                            <li class="resource-storage">Max Storage: <span id="food-storage-total"
-                                                                            class="resource-amount">2000</span></li>
-                            <li class="resource-storage">Max Storage: <span id="metal-storage-total"
-                                                                            class="resource-amount">2000</span></li>
+                            <li class="resource-storage">Storage: <span id="hydrogen-storage-total"
+                                                                        class="resource-amount">2000</span></li>
+                            <li class="resource-storage">Storage: <span id="food-storage-total"
+                                                                        class="resource-amount">2000</span></li>
+                            <li class="resource-storage">Storage: <span id="metal-storage-total"
+                                                                        class="resource-amount">2000</span></li>
                         </ul>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 col-xs-4">
                         <section id="gather-rates">
-                            <ul class="list-unstyled list-padded">
+                            <ul class="list-unstyled list-padded text-right">
                                 <li><span class="resource-gather-rate">0</span>/s</li>
                                 <li><span class="resource-gather-rate">0</span>/s</li>
                                 <li><span class="resource-gather-rate">0</span>/s</li>
                             </ul>
                         </section>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-xs-4">
+                        <ul class="list-unstyled list-padded">
+                            <li>Hydrogen Miners:</li>
+                            <li>Farmers:</li>
+                            <li>Asteroid Miners:</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-xs-4">
+                        <div class="btn-row">
+                            <div class="fullwidth-block pull-right">
+                                <button onclick="unassignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#x25c1;</button>
+                                <span class="worker-count" id="worker-count-hydrogen">0</span>
+                                <button onclick="assignWorker('hydrogen')"
+                                        class="btn-click btn-assign">&#x25b7;</button>
+                            </div>
+
+                        </div>
+                        <div class="btn-row">
+                            <div class="fullwidth-block pull-right">
+                                <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#x25c1;</button>
+                                <span class="worker-count" id="worker-count-food">0</span>
+                                <button onclick="assignWorker('food')" class="btn-click btn-assign">&#x25b7;</button>
+                            </div>
+                        </div>
+                        <div class="btn-row">
+                            <div class="fullwidth-block pull-right">
+                                <button onclick="unassignWorker('metal')"
+                                        class="btn-click btn-assign">&#x25c1;</button>
+                                <span class="worker-count" id="worker-count-metal">0</span>
+                                <button onclick="assignWorker('metal')"
+                                        class="btn-click btn-assign btn-right">&#x25b7;</button>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -67,10 +102,11 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h3>Population</h3>
+
 
                 <div class="row">
                     <div class="col-sm-3">
+                        <h3>Population</h3>
                         <ul class="list-unstyled ">
                             <li class="resource-output">Workers: <span id="worker-count"
                                                                        class="resource-amount">0</span></li>
@@ -86,66 +122,44 @@
                             Hire Worker [20 Food]
                         </button>
                     </div>
+                    <h3>Buildings</h3>
                     <div class="col-sm-3">
-                        <ul class="list-unstyled list-padded">
-                            <li>Hydrogen Miners:</li>
-                            <li>Farmers:</li>
-                            <li>Asteroid Miners:</li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="btn-row">
-                            <div class="fullwidth-block pull-right">
-                                <button onclick="unassignWorker('hydrogen')"
-                                        class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-hydrogen">0</span>
-                                <button onclick="assignWorker('hydrogen')"
-                                        class="btn-click btn-assign">&#129154;</button>
-                            </div>
 
-                        </div>
-                        <div class="btn-row">
-                            <div class="fullwidth-block pull-right">
-                                <button onclick="unassignWorker('food')" class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-food">0</span>
-                                <button onclick="assignWorker('food')" class="btn-click btn-assign">&#129154;</button>
-                            </div>
-                        </div>
-                        <div class="btn-row">
-                            <div class="fullwidth-block pull-right">
-                                <button onclick="unassignWorker('metal')"
-                                        class="btn-click btn-assign">&#129152;</button>
-                                <span class="worker-count" id="worker-count-metal">0</span>
-                                <button onclick="assignWorker('metal')"
-                                        class="btn-click btn-assign btn-right">&#129154;</button>
-                            </div>
-                        </div>
+                        <h4>Housing</h4>
+                        <button class="btn-block btn-click" onclick="buildings.housing.apartment.purchase()">
+                            Apartment<br>[<span id="apartment-cost">50</span> Metal](+2 Population)
+                        </button>
+
+                    </div>
+                    <div class="col-sm-3">
+                        <h4>Storage</h4>
+                        <button class="btn-block btn-click" onclick="buildings.storage.hydrogen.purchase()">
+                            Hydrogen Tank <br>[<span id="hydrogen-storage-cost">100</span> Metal]<br>(+500 Hydrogen
+                            Storage)
+                        </button>
+                        <button class="btn-block btn-click" onclick="buildings.storage.food.purchase()">
+                            Food Storage<br>[<span id="food-storage-cost">100</span> Metal]<br>(+500 Food Storage)
+                        </button>
+                        <button class="btn-block btn-click" onclick="buildings.storage.metal.purchase()">
+                            Metal Storage <br>[<span id="metal-storage-cost">100</span> Metal]<br>(+500 Metal Storage)
+                        </button>
+                    </div>
+                    <div class="col-sm-3">
+                        <h4>Shipyard</h4>
+                        <button class="btn-block btn-click">Small Hangar <br> [<span id="small-hangar-cost">250</span>
+                            Metal]<br>(+1 Small Ship Capacity)
+                        </button>
+                        <button class="btn-block btn-click">Medium Hangar <br> [<span id="small-hangar-cost">750</span>
+                            Metal]<br>(+1 Medium Ship Capacity)</button>
+                        <button class="btn-block btn-click">Large Hangar <br> [<span id="small-hangar-cost">2500</span>
+                            Metal]<br>(+1 Large Ship Capacity)</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-3">
-                <h3>Buildings</h3>
-                <h4>Housing</h4>
-                <button class="btn-block btn-click" onclick="buildings.housing.apartment.purchase()">
-                    Apartment<br>[<span id="apartment-cost">50</span> Metal](+2 Population)
-                </button>
 
-                <h4>Storage</h4>
-                <button class="btn-block btn-click" onclick="buildings.storage.hydrogen.purchase()">
-                    Hydrogen Tank <br>[<span id="hydrogen-storage-cost">100</span> Metal]<br>(+500 Hydrogen
-                    Storage)
-                </button>
-                <button class="btn-block btn-click" onclick="buildings.storage.food.purchase()">
-                    Food Storage<br>[<span id="food-storage-cost">100</span> Metal]<br>(+500 Food Storage)
-                </button>
-                <button class="btn-block btn-click" onclick="buildings.storage.metal.purchase()">
-                    Metal Storage <br>[<span id="metal-storage-cost">100</span> Metal]<br>(+500 Metal Storage)
-                </button>
-
-            </div>
-            <div class="col-sm-9">
+            <div class="col-sm-12">
                 <h3>Fleet</h3>
                 <h4>Ships</h4>
                 <div class="row">
@@ -172,6 +186,7 @@
                                     <li>Exploration</li>
                                     <li>Mining</li>
                                     <li>Unallocated:</li>
+                                    <li>Capacity:</li>
                                 </ul>
                             </div>
                             <div class="col-md-3 col-xs-4">
@@ -179,26 +194,27 @@
                                     <p class="text-center"><strong>Small</strong></p>
                                     <div class="fullwidth-block pull-right">
                                         <button onclick="fleet.methods.unassignShip('small','trading')"
-                                                class="btn-click btn-assign">&#129152;</button>
+                                                class="btn-click btn-assign">&#x25c1;</button>
                                         <span class="worker-count ship-trading" id="ship-trading-small">0</span>
                                         <button onclick="fleet.methods.assignShip('small','trading')"
-                                                class="btn-click btn-assign">&#129154;</button>
+                                                class="btn-click btn-assign">&#x25b7;</button>
                                     </div>
                                     <div class="fullwidth-block pull-right">
                                         <button onclick="fleet.methods.unassignShip('small','exploring')"
-                                                class="btn-click btn-assign">&#129152;</button>
+                                                class="btn-click btn-assign">&#x25c1;</button>
                                         <span class="worker-count ship-exploring" id="ship-exploring-small">0</span>
                                         <button onclick="fleet.methods.assignShip('small','exploring')"
-                                                class="btn-click btn-assign">&#129154;</button>
+                                                class="btn-click btn-assign">&#x25b7;</button>
                                     </div>
                                     <div class="fullwidth-block pull-right">
                                         <button onclick="fleet.methods.unassignShip('small','mining')"
-                                                class="btn-click btn-assign">&#129152;</button>
+                                                class="btn-click btn-assign">&#x25c1;</button>
                                         <span class="worker-count ship-mining" id="ship-mining-small">0</span>
                                         <button onclick="fleet.methods.assignShip('small','mining')"
-                                                class="btn-click btn-assign">&#129154;</button>
+                                                class="btn-click btn-assign">&#x25b7;</button>
                                     </div>
                                     <p class="clearfix text-center ship-unallocated" id="">0</p>
+                                    <p class="clearfix text-center ship-capacity" id="">0</p>
                                 </div>
                             </div>
                             <div class="col-md-3 col-xs-4">
@@ -206,26 +222,27 @@
                                     <p class="text-center"><strong>Medium</strong></p>
                                     <div class="fullwidth-block pull-right">
                                         <button onclick="fleet.methods.unassignShip('medium','trading')"
-                                                class="btn-click btn-assign">&#129152;</button>
+                                                class="btn-click btn-assign">&#x25c1;</button>
                                         <span class="worker-count ship-trading" id="ship-trading-medium">0</span>
                                         <button onclick="fleet.methods.assignShip('medium','trading')"
-                                                class="btn-click btn-assign">&#129154;</button>
+                                                class="btn-click btn-assign">&#x25b7;</button>
                                     </div>
                                     <div class="fullwidth-block pull-right">
                                         <button onclick="fleet.methods.unassignShip('medium','exploring')"
-                                                class="btn-click btn-assign">&#129152;</button>
+                                                class="btn-click btn-assign">&#x25c1;</button>
                                         <span class="worker-count ship-exploring" id="ship-exploring-medium">0</span>
                                         <button onclick="fleet.methods.assignShip('medium','exploring')"
-                                                class="btn-click btn-assign">&#129154;</button>
+                                                class="btn-click btn-assign">&#x25b7;</button>
                                     </div>
                                     <div class="fullwidth-block pull-right">
                                         <button onclick="fleet.methods.unassignShip('medium','mining')"
-                                                class="btn-click btn-assign">&#129152;</button>
+                                                class="btn-click btn-assign">&#x25c1;</button>
                                         <span class="worker-count ship-mining" id="ship-mining-medium">0</span>
                                         <button onclick="fleet.methods.assignShip('medium','mining')"
-                                                class="btn-click btn-assign">&#129154;</button>
+                                                class="btn-click btn-assign">&#x25b7;</button>
                                     </div>
                                     <p class="clearfix text-center ship-unallocated" id="">0</p>
+                                    <p class="clearfix text-center ship-capacity" id="">0</p>
                                 </div>
                             </div>
                             <div class="col-md-3 col-xs-4">
@@ -233,26 +250,27 @@
                                     <p class="text-center"><strong>Large</strong></p>
                                     <div class="fullwidth-block pull-right">
                                         <button onclick="fleet.methods.unassignShip('large','trading')"
-                                                class="btn-click btn-assign">&#129152;</button>
+                                                class="btn-click btn-assign">&#x25c1;</button>
                                         <span class="worker-count ship-trading" id="ship-trading-large">0</span>
                                         <button onclick="fleet.methods.assignShip('large','trading')"
-                                                class="btn-click btn-assign">&#129154;</button>
+                                                class="btn-click btn-assign">&#x25b7;</button>
                                     </div>
                                     <div class="fullwidth-block pull-right">
                                         <button onclick="fleet.methods.unassignShip('large','exploring')"
-                                                class="btn-click btn-assign">&#129152;</button>
+                                                class="btn-click btn-assign">&#x25c1;</button>
                                         <span class="worker-count ship-exploring" id="ship-exploring-large">0</span>
                                         <button onclick="fleet.methods.assignShip('large','exploring')"
-                                                class="btn-click btn-assign">&#129154;</button>
+                                                class="btn-click btn-assign">&#x25b7;</button>
                                     </div>
                                     <div class="fullwidth-block pull-right">
                                         <button onclick="fleet.methods.unassignShip('large','mining')"
-                                                class="btn-click btn-assign">&#129152;</button>
+                                                class="btn-click btn-assign">&#x25c1;</button>
                                         <span class="worker-count ship-mining" id="ship-mining-large">0</span>
                                         <button onclick="fleet.methods.assignShip('large','mining')"
-                                                class="btn-click btn-assign">&#129154;</button>
+                                                class="btn-click btn-assign">&#x25b7;</button>
                                     </div>
                                     <p class="clearfix text-center ship-unallocated" id="">0</p>
+                                    <p class="clearfix text-center ship-capacity" id="">0</p>
                                 </div>
                             </div>
                         </div>
