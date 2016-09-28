@@ -2,7 +2,7 @@
 updateTotals();
 
 var conditionalEvents = {
-  OXYGEN_LEAK: 3,
+    OXYGEN_LEAK: 3,
 };
 
 // game events
@@ -51,7 +51,7 @@ function gameTick() {
                 obj.amount += obj.gatherRate();
             }
 
-            if(obj.amount > obj.maxStorage){
+            if (obj.amount > obj.maxStorage) {
                 obj.amount = obj.maxStorage;
             }
 
@@ -60,13 +60,13 @@ function gameTick() {
 
     fleet.methods.tickEvent();
 
-    
+
     updateTotals();
 
     /* Special Events */
 
-    // OXYGEN LEAK - occurs when a player has more than 200 workers,
-    if(resources.food.workers > 200 && Math.random() > 0.8 && conditionalEvents.OXYGEN_LEAK != -1){
+    // OXYGEN LEAK - occurs when a player has more than 200 workers on food
+    if (resources.food.workers > 200 && Math.random() > 0.8 && conditionalEvents.OXYGEN_LEAK != -1) {
         var event = messages.negative[conditionalEvents.OXYGEN_LEAK];
         eventHandler(event);
         // set flag to -1, so that it won't happen again
@@ -77,8 +77,16 @@ function gameTick() {
     }
 
     // EXPLORATION PARTY LOST
-    if(false){
+    if (false) {
         //TODO: implement this
+    }
+    // PIRATE INCREASE
+    if (false) {
+        // TODO: implement pirate increase - probably based on something fun like trader amounts
+    }
+    // PIRATE LORD ARRIVAL
+    if (false) {
+        // TODO: implement pirate lord arrival
     }
 
 

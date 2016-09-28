@@ -101,3 +101,42 @@ test('Apartment', function () {
 
 
 });
+
+suite('Population');
+test('Worker Cost Works', function () {
+    ok(population.currentPopulation() == 20, "Should be 20 workers by default");
+    resources.food.amount = 19;
+    population.hireWorker();
+    ok(population.currentPopulation() == 20, "Shouldn't be able to hire a worker at this point");
+    resources.food.amount = 20;
+    population.hireWorker();
+    ok(population.currentPopulation() == 21, "should have hired a worker");
+    ok(resources.food.amount == 0, "should have used 20 food to buy a worker");
+
+});
+
+test('Worker Limit Obeyed', function () {
+
+    // I have to reset these values, since I'm assuming that other tests will have run
+    // this is the fun part of using javascript objects
+    population.currentPopulationCap = 30;
+    population.currentUnemployed = 0;
+    ok(population.currentPopulation() == 20, "should be 20 workers not that we've reset unemployed");
+    resources.food.amount = 300;
+
+    // fill up population
+    for(var i = 1; i < 11; i++){
+        population.hireWorker();
+        ok(population.currentPopulation() == (20 + i));
+        // brackets probably not needed, but just to be safe
+        ok(resources.food.amount == (300 - (20 * i)));
+    }
+
+    ok(population.currentPopulation() == population.currentPopulationCap, "Should be at 30 workers");
+    // this should fail
+    population.hireWorker();
+    ok(population.currentPopulation() == population.currentPopulationCap, "Should be at 30 workers");
+
+
+
+});

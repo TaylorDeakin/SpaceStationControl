@@ -56,6 +56,9 @@ var resources = {
 var population = {
     currentWorkers: 20,
     currentUnemployed: 0,
+    currentPopulation: function(){
+        return this.currentWorkers + this.currentUnemployed;
+    },
     currentPopulationCap: 30,
     currentFoodCost: function () {
         return Math.ceil(this.currentWorkers / 4)
@@ -287,7 +290,6 @@ var fleet = {
                 case "large":
                     shipNum = 3;
             }
-
             console.log(buildings.shipyard.docks[size]);
             if (buildings.shipyard.docks[size].unassigned > 0) {
                 switch (task) {
