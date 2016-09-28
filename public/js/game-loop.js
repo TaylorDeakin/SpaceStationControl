@@ -1,79 +1,60 @@
 // call once to init everything
-updateTotals();
-
-var conditionalEvents = {
-    OXYGEN_LEAK: 3,
-};
-
-// game events
-var events = [
-    function () {
-        positiveEvent();
-    },
-    function () {
-        negativeEvent();
-    }
-];
-
-function randomEvent() {
-    if (occuredEventsCount == MAX_NEWS) {
-        return
-    }
-
-    randomFrom(events).call();
-}
-function randomFrom(array) {
-    return array[Math.floor(Math.random() * array.length)];
+function init(){
+    updateTotals();
 }
 
-/*(function loop() {
- var rand = Math.round(Math.random() * (300 - 50)) + 50;
- if (controllingFaction.influence > 100) {
- station.name = "winner!";
- } else {
- setTimeout(function () {
- randomEvent();
- loop();
- }, rand);
- }
- }());*/
+init();
 
 setInterval(function () {
     gameTick();
 }, 1000);
 
-function gameTick() {
-
-    for (var key in resources) {
-        if (resources.hasOwnProperty(key)) {
-            var obj = resources[key];
-            if (obj.amount < obj.maxStorage) {
-                obj.amount += obj.gatherRate();
-            }
-
-            if (obj.amount > obj.maxStorage) {
-                obj.amount = obj.maxStorage;
-            }
-
+var conditionalEvents = {
+    OXYGEN_LEAK: {
+        id: 3,
+        run: function(){
+            var event = messages.negative[this.id];
+            eventHandler(event);
+            // set flag to -1, so that it won't happen again
+            this.id = -1;
+            // delete that amount of workers;
+            resources.food.workers -= 150;
+            population.currentWorkers -= 150;
+        }
+    },
+    ECONOMIC_SURPLUS_1: {
+        id: 0,
+        run: function(){
+            var event = messages.positive[this.id];
+            eventHandler(event);
+            this.id = -1;
+        }
+    },
+    ECONOMIC_SURPLUS_2: {
+        id: 1,
+        run: function () {
+            var event = messages.positive[this.id];
+            eventHandler(event);
+            this.id = -1;
         }
     }
-
+};
+/**
+ * called every second, is responsible for running the game
+ */
+function gameTick() {
+    gatherResources();
     fleet.methods.tickEvent();
-
-
     updateTotals();
+    testEventConditionals();
+}
 
+function testEventConditionals() {
     /* Special Events */
 
     // OXYGEN LEAK - occurs when a player has more than 200 workers on food
-    if (resources.food.workers > 200 && Math.random() > 0.8 && conditionalEvents.OXYGEN_LEAK != -1) {
-        var event = messages.negative[conditionalEvents.OXYGEN_LEAK];
-        eventHandler(event);
-        // set flag to -1, so that it won't happen again
-        conditionalEvents.OXYGEN_LEAK = -1;
-        // delete that amount of workers;
-        resources.food.workers -= 150;
-        population.currentWorkers -= 150;
+    if (conditionalEvents.OXYGEN_LEAK.id != -1 && resources.food.workers > 200 && Math.random() > 0.8) {
+        conditionalEvents.OXYGEN_LEAK.run();
     }
 
     // EXPLORATION PARTY LOST
@@ -89,13 +70,43 @@ function gameTick() {
         // TODO: implement pirate lord arrival
     }
 
-
+    // ECONOMIC SURPLUS 1
+    if(conditionalEvents.ECONOMIC_SURPLUS_1.id != -1 && population.currentPopulation() > 30){
+        conditionalEvents.ECONOMIC_SURPLUS_1.run();
+    }
+    // ECONOMIC SURPLUS 2
+    if(conditionalEvents.ECONOMIC_SURPLUS_2.id != -1 && resources.food.amount > 2000){
+        conditionalEvents.ECONOMIC_SURPLUS_2.run();
+    }
 }
 
-function cheat() {
+function gatherResources(){
     for (var key in resources) {
         if (resources.hasOwnProperty(key)) {
-            resources[key].amount = 5000;
+            var obj = resources[key];
+            if (obj.amount <= obj.maxStorage) {
+                obj.amount += obj.gatherRate();
+            }
+
+            if (obj.amount > obj.maxStorage) {
+                obj.amount = obj.maxStorage;
+            }
+
+        }
+    }
+}
+
+
+/**
+ * debug function to give resources
+ * @param amount - amount of resources to give
+ */
+function cheat(amount) {
+    if (amount === undefined) amount = 5000;
+
+    for (var key in resources) {
+        if (resources.hasOwnProperty(key)) {
+            resources[key].amount = amount;
         }
     }
 }

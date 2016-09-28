@@ -89,8 +89,8 @@ test('Metal Storage', function () {
 
 suite('Housing');
 test('Apartment', function () {
-
-    ok(population.currentPopulationCap == 30, "default pop cap should be 30");
+    // have to reset this to 30, because of tests
+    population.currentPopulationCap = 30;
     buildings.housing.apartment.purchase();
     ok(population.currentPopulationCap == 30, "pop cap should still be 30, as we can't afford a house");
     resources.metal.amount = 50;

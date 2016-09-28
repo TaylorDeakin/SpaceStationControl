@@ -3,12 +3,12 @@ var newsElement = document.getElementById("news-list");
 var messages = {
     positive: [
         {
-            "title": "10th Anniversary Celebrations",
-            "text": "Today the citizens of {0} celebrated 10 years of prosperity under the watch of the {1}.",
-            "influenceChange": 10,
+            "title": "{0} expects to post economic surplus this year",
+            "text": "A spokesperson for the {0} announced today that they expect an economic surplus for {1} this year.",
+            "influenceChange": 3,
             "placeholders": [
-                "station",
-                "faction"
+                "faction",
+                "station"
             ],
             "id": 0
         },
@@ -24,22 +24,22 @@ var messages = {
             "id": 1
         },
         {
+            "title": "10th Anniversary Celebrations",
+            "text": "Today the citizens of {0} celebrated 10 years of prosperity under the watch of the {1}.",
+            "influenceChange": 10,
+            "placeholders": [
+                "station",
+                "faction"
+            ],
+            "id": 2
+        },
+        {
             "title": "Notorious Pirate Brought to Justice",
             "text": "The notorious Space Pirate {0} was today brought to justice by {1} authorities. ",
             "influenceChange": 3,
             "placeholders": [
                 "person",
                 "faction"
-            ],
-            "id": 2
-        },
-        {
-            "title": "{0} Expects to post economic surplus this year",
-            "text": "A spokesperson for the {0} announced today that they expect an economic surplus for {1} this year.",
-            "influenceChange": 3,
-            "placeholders": [
-                "faction",
-                "station"
             ],
             "id": 3
         },
